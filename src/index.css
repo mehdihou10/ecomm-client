@@ -18,5 +18,12 @@ body{
 }
 
 @layer base{
+
+    body{
+        @apply bg-background
+    }
   
+    .btn{
+        @apply grid place-items-center w-[120px] h-[40px]
+    }
 }
