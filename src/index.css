@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    font-family: 'Poppins', sans-serif;
+}
+.font-default{
+    font-family: 'Poppins', sans-serif;
+}
+
+.font-rokkit{
+    font-family: 'Rokkitt', serif;
+}
+.font-title{
+    font-family: "Satisfy", sans-serif;
+
+}
+
 @layer base{
   
 }
