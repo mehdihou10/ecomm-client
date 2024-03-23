@@ -29,6 +29,12 @@ const Shop = ()=>(
 
 )
 
+const Wishlist = ()=>(
+    <Link to='/wishlist' className='text-[25px]'>
+        <FaRegHeart />
+    </Link>
+)
+
 const Sign = ()=>(
 
     <div className="btns flex">
@@ -59,8 +65,7 @@ const Header = () => {
 
         <div className='flex items-center gap-[50px]'>
 
-        <Link to='/wishlist' className='text-[25px]'><FaRegHeart /></Link>
-
+        <Wishlist />
         <Shop />
 
         <Sign />
@@ -72,7 +77,10 @@ const Header = () => {
 
         </div>
 
-        <div className="shop block md:hidden"><Shop /></div>
+        <div className="shop flex items-center gap-[20px] md:hidden">
+            <Shop />
+            <Wishlist />
+        </div>
       
     </div>
 

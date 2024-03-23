@@ -4,16 +4,22 @@ import { FaStore } from "react-icons/fa";
 import { FaPeopleCarry } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa6";
 import { LuHeading1 } from "react-icons/lu";
+import ProcessSign from '../components/Process.Sign';
 
 const CheckboxType = () => {
   const [type, setType] = useState("");
 
   const changeType = (type) => {
     setType(type);
-    console.log(type);
   };
+
+
   return (
     <>
+
+    <ProcessSign active1={true} />
+
+
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-24 lg:px-8 relative">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
