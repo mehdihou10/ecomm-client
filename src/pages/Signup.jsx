@@ -1,9 +1,24 @@
-import React from "react";
+import {useState} from "react";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import ProcessSign from "../components/Process.Sign";
 
 const Signup = () => {
+
+  const [userData,setUserData] = useState({
+
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    image: "images/user.png",
+    phone_number: null
+
+  })
+
+  console.log(userData)
+
+
   return (
     <>
       <ProcessSign active2={true} />
@@ -16,7 +31,7 @@ const Signup = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" method="POST">
             <div>
               <label
                 htmlFor="first_name"
@@ -26,6 +41,7 @@ const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
+                onChange={(e)=>setUserData({...userData,first_name: e.target.value})}
                   id="first_name"
                   name="first_name"
                   type="text"
@@ -44,6 +60,7 @@ const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
+                onChange={(e)=>setUserData({...userData,last_name: e.target.value})}
                   id="last_name"
                   name="last_name"
                   type="text"
@@ -63,6 +80,7 @@ const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
+                onChange={(e)=>setUserData({...userData,email: e.target.value})}
                   id="email"
                   name="email"
                   type="email"
@@ -83,6 +101,7 @@ const Signup = () => {
                 </label>
                 <div className="mt-2">
                   <input
+                  onChange={(e)=>setUserData({...userData,phone_number: e.target.value})}
                     id="phone_number"
                     name="phone_number"
                     type="text"
@@ -105,6 +124,7 @@ const Signup = () => {
               </div>
               <div className="mt-2">
                 <input
+                onChange={(e)=>setUserData({...userData,password: e.target.value})}
                   id="password"
                   name="password"
                   type="password"
@@ -115,7 +135,7 @@ const Signup = () => {
               </div>
             </div>
 
-            <div className="col-span-full">
+            {/* <div className="col-span-full">
               <label
                 htmlFor="photo"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -134,7 +154,7 @@ const Signup = () => {
                   Upload
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <div>
               <button
