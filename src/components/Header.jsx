@@ -73,8 +73,6 @@ const Header = () => {
 
         </div>
 
-        
-
         </div>
 
         <div className="shop flex items-center gap-[20px] md:hidden">

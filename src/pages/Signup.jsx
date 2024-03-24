@@ -73,7 +73,7 @@ const Signup = () => {
               </div>
             </div>
 
-            {localStorage.getItem("type") === "vendor" ? (
+            {localStorage.getItem("type") === "vendor" && (
               <div>
                 <label
                   htmlFor="phone_number"
@@ -92,7 +92,7 @@ const Signup = () => {
                   />
                 </div>
               </div>
-            ) : null}
+            ) }
 
             <div>
               <div className="flex items-center justify-between">
