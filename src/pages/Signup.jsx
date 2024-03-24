@@ -1,9 +1,16 @@
-import {useState} from "react";
-import { UserCircleIcon } from "@heroicons/react/24/solid";
+import {useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import ProcessSign from "../components/Process.Sign";
+import { useNavigate } from "react-router-dom";
+import { url } from '../api/api.url';
+import axios from 'axios';
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Signup = () => {
+
+  const navigate = useNavigate();
 
   const [userData,setUserData] = useState({
 
@@ -16,12 +23,109 @@ const Signup = () => {
 
   })
 
-  console.log(userData)
+  const userType = localStorage.getItem('type');
+
+  useEffect(()=>{
+
+    if(!userType || !['client','vendor'].includes(userType)){
+
+      navigate('/auth/type');
+
+    }
+
+  },[])
+
+
+  const registerUser = (e)=>{
+
+    e.preventDefault();
+
+    if(userType === "client"){
+
+      addClient();
+
+    } else{
+
+      addVendor();
+    }
+  }
+
+  //add client
+  const addClient = ()=>{
+
+    const sendedData = {
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      email: userData.email,
+      password: userData.password,
+      image: userData.image
+    }
+
+    axios.post(`${url}/api/users/register`,sendedData)
+    .then((res)=>{
+
+      const data = res.data;
+
+      if(data.status === "success"){
+
+        navigate('/')
+
+      } else{
+
+        const errors = data.message;
+
+        for(const error of errors){
+
+          toast.error(error.msg)
+
+        }
+
+      }
+
+
+    })
+
+  }
+
+
+  //add vendor
+  const addVendor = ()=>{
+
+    axios.post(`${url}/api/vendors/register`,{...userData,is_email_verification: true})
+    .then((res)=>{
+
+      const data = res.data;
+
+      console.log(data)
+
+      if(data.status === "success"){
+
+        navigate('/')
+
+      } else{
+
+        const errors = data.message;
+
+        for(const error of errors){
+
+          toast.error(error.msg)
+
+        }
+
+      }
+    })
+
+  }
 
 
   return (
     <>
       <ProcessSign active2={true} />
+
+      <ToastContainer
+      position="top-left"
+      theme="colored"
+       />
 
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -31,7 +135,7 @@ const Signup = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" method="POST">
+          <form className="space-y-6" onSubmit={registerUser}>
             <div>
               <label
                 htmlFor="first_name"
