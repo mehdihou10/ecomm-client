@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { url } from "../api/api.url";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate("");
 
-  const handleClick = async (e) =>{
+  const handleClick = async (e) => {
     e.preventDefault();
-
-    const response = await fetch("http://localhost:5000/api/users/login",{
-      method :"POST",
-      conte
-    })
-    
-  }
+    const response = await fetch(`${url}/api/users/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const json = await response.json();
+    console.log(json);
+    if (json.status === "fail") {
+      setError(json.message);
+    }
+    if (json.status === "success") {
+      localStorage.setItem("token", json.token);
+      navigate("/");
+    }
+  };
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -25,7 +35,7 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" >
+          <form className="space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -78,13 +88,14 @@ const Login = () => {
 
             <div>
               <button
-              onClick={()=>handleClick()}
+                onClick={handleClick}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-main px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
               </button>
             </div>
+            {error && <p className="text-red-600">{error} !</p>}
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
