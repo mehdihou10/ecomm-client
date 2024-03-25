@@ -74,11 +74,12 @@ const Signup = () => {
 
         const errors = data.message;
 
-        for(const error of errors){
+        // for(const error of errors){
 
-          toast.error(error.msg)
+        //   toast.error(error.msg)
 
-        }
+        // }
+        console.log(errors);
 
       }
 

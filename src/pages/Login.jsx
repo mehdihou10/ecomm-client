@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { url } from "../api/api.url";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +19,11 @@ const Login = () => {
     const json = await response.json();
     console.log(json);
     if (json.status === "fail") {
-      setError(json.message);
+      const errors = json.message;
+      if(typeof errors )
+      for (const error of errors) {
+        toast.error(error.msg);
+      }
     }
     if (json.status === "success") {
       localStorage.setItem("token", json.token);
@@ -27,6 +32,7 @@ const Login = () => {
   };
   return (
     <>
+      <ToastContainer position="top-left" theme="colored" />
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -95,7 +101,6 @@ const Login = () => {
                 Sign in
               </button>
             </div>
-            {error && <p className="text-red-600">{error} !</p>}
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
