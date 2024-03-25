@@ -1,132 +1,104 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProcessSign from "../components/Process.Sign";
 import { useNavigate } from "react-router-dom";
-import { url } from '../api/api.url';
-import axios from 'axios';
-import {ToastContainer,toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { url } from "../api/api.url";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
-
   const navigate = useNavigate();
 
-  const [userData,setUserData] = useState({
-
+  const [userData, setUserData] = useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
     image: "images/user.png",
-    phone_number: null
+    phone_number: null,
+  });
 
-  })
+  const userType = localStorage.getItem("type");
 
-  const userType = localStorage.getItem('type');
-
-  useEffect(()=>{
-
-    if(!userType || !['client','vendor'].includes(userType)){
-
-      navigate('/auth/type');
-
+  useEffect(() => {
+    if (!userType || !["client", "vendor"].includes(userType)) {
+      navigate("/auth/type");
     }
+  }, []);
 
-  },[])
-
-
-  const registerUser = (e)=>{
-
+  const registerUser = (e) => {
     e.preventDefault();
 
-    if(userType === "client"){
-
+    if (userType === "client") {
       addClient();
-
-    } else{
-
+    } else {
       addVendor();
     }
-  }
+  };
 
   //add client
-  const addClient = ()=>{
-
+  const addClient = () => {
     const sendedData = {
       first_name: userData.first_name,
       last_name: userData.last_name,
       email: userData.email,
       password: userData.password,
-      image: userData.image
-    }
+      image: userData.image,
+    };
 
-    axios.post(`${url}/api/users/register`,sendedData)
-    .then((res)=>{
-
+    axios.post(`${url}/api/users/register`, sendedData).then((res) => {
       const data = res.data;
 
-      if(data.status === "success"){
-
-        navigate('/')
-
-      } else{
-
+      if (data.status === "success") {
+        navigate("/");
+      } else {
         const errors = data.message;
-
-        // for(const error of errors){
-
-        //   toast.error(error.msg)
-
-        // }
-        console.log(errors);
-
-      }
-
-
-    })
-
-  }
-
-
-  //add vendor
-  const addVendor = ()=>{
-
-    axios.post(`${url}/api/vendors/register`,{...userData,is_email_verification: true})
-    .then((res)=>{
-
-      const data = res.data;
-
-      console.log(data)
-
-      if(data.status === "success"){
-
-        navigate('/')
-
-      } else{
-
-        const errors = data.message;
-
-        for(const error of errors){
-
-          toast.error(error.msg)
-
+        if (errors.msg === "no such user") {
+          toast.error(errors.msg);
+        } else {
+          for (const error of errors) {
+            toast.error(error.msg);
+          }
         }
 
+        console.log(data);
+        console.log(errors);
       }
-    })
+    });
+  };
 
-  }
+  //add vendor
+  const addVendor = () => {
+    axios
+      .post(`${url}/api/vendors/register`, {
+        ...userData,
+        is_email_verification: true,
+      })
+      .then((res) => {
+        const data = res.data;
 
+        console.log(data);
+
+        if (data.status === "success") {
+          navigate("/");
+        } else {
+          const errors = data.message;
+
+          for (const error of errors) {
+            toast.error(error.msg);
+          }
+          // console.log(errors);
+          console.log(data);
+        }
+      });
+  };
 
   return (
     <>
       <ProcessSign active2={true} />
 
-      <ToastContainer
-      position="top-left"
-      theme="colored"
-       />
+      <ToastContainer position="top-left" theme="colored" />
 
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -146,7 +118,9 @@ const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
-                onChange={(e)=>setUserData({...userData,first_name: e.target.value})}
+                  onChange={(e) =>
+                    setUserData({ ...userData, first_name: e.target.value })
+                  }
                   id="first_name"
                   name="first_name"
                   type="text"
@@ -165,7 +139,9 @@ const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
-                onChange={(e)=>setUserData({...userData,last_name: e.target.value})}
+                  onChange={(e) =>
+                    setUserData({ ...userData, last_name: e.target.value })
+                  }
                   id="last_name"
                   name="last_name"
                   type="text"
@@ -185,7 +161,9 @@ const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
-                onChange={(e)=>setUserData({...userData,email: e.target.value})}
+                  onChange={(e) =>
+                    setUserData({ ...userData, email: e.target.value })
+                  }
                   id="email"
                   name="email"
                   type="email"
@@ -206,7 +184,9 @@ const Signup = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                  onChange={(e)=>setUserData({...userData,phone_number: e.target.value})}
+                    onChange={(e) =>
+                      setUserData({ ...userData, phone_number: e.target.value })
+                    }
                     id="phone_number"
                     name="phone_number"
                     type="text"
@@ -216,7 +196,7 @@ const Signup = () => {
                   />
                 </div>
               </div>
-            ) }
+            )}
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -228,7 +208,9 @@ const Signup = () => {
               </div>
               <div className="mt-2">
                 <input
-                onChange={(e)=>setUserData({...userData,password: e.target.value})}
+                  onChange={(e) =>
+                    setUserData({ ...userData, password: e.target.value })
+                  }
                   id="password"
                   name="password"
                   type="password"
