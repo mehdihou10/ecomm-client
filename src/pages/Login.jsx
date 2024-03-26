@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${url}/api/users/login`, {
+    const response = await fetch(`${url}/api/all/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -19,8 +19,7 @@ const Login = () => {
     const json = await response.json();
     console.log(json);
     if (json.status === "fail") {
-      const errors = json.message;
-      if(typeof errors )
+      const errors = json.message
       for (const error of errors) {
         toast.error(error.msg);
       }
