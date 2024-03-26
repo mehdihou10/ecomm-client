@@ -6,9 +6,15 @@ import { url } from "../api/api.url";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import email_image from '../images/email.png'
+import { GoInfo } from "react-icons/go";
+
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  const [showVerificationPage,setShowVerificationPage] = useState(false);
+  const [code,setCode] = useState('');
 
   const [userData, setUserData] = useState({
     first_name: "",
@@ -17,6 +23,7 @@ const Signup = () => {
     password: "",
     image: "images/user.png",
     phone_number: null,
+    email_verification: Date.now()
   });
 
   const userType = localStorage.getItem("type");
@@ -27,80 +34,131 @@ const Signup = () => {
     }
   }, []);
 
-  const registerUser = (e) => {
+  const verifyUser = (e) => {
     e.preventDefault();
 
     if (userType === "client") {
-      addClient();
+      verifyClient();
     } else {
-      addVendor();
+      verifyVendor();
     }
   };
 
-  //add client
-  const addClient = () => {
+  //verify client
+  const verifyClient = () => {
     const sendedData = {
       first_name: userData.first_name,
       last_name: userData.last_name,
       email: userData.email,
       password: userData.password,
       image: userData.image,
+      email_verification: userData.email_verification
     };
 
-    axios.post(`${url}/api/users/register`, sendedData).then((res) => {
-      const data = res.data;
+    apiVerify("users",sendedData);
 
-      if (data.status === "success") {
-        navigate("/");
-      } else {
-        const errors = data.message;
-        if (errors.msg === "no such user") {
-          toast.error(errors.msg);
-        } else {
-          for (const error of errors) {
-            toast.error(error.msg);
-          }
-        }
-
-        console.log(data);
-        console.log(errors);
-      }
-    });
   };
 
-  //add vendor
-  const addVendor = () => {
+  //verify vendor
+  const verifyVendor = () => {
+
+    apiVerify("vendors",userData);
+  };
+
+
+  const addUser = ()=>{
+
+    if(+code === +userData.email_verification){
+
+      const sendedData = {
+
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        email: userData.email,
+        password: userData.password,
+        image: userData.image,
+        email_verification: false
+
+      }
+
+      if(userType === "vendor"){
+
+        apiAdd("vendors",{...sendedData,phone_number: userData.phone_number})
+        
+      } else if(userType === "client"){
+        
+        apiAdd("users",sendedData);
+      }
+
+
+    } else{
+      toast.error('incorrect code')
+    }
+
+  }
+
+  //api functions
+  const apiVerify = (type,dt)=>{
+
     axios
-      .post(`${url}/api/vendors/register`, {
-        ...userData,
-        is_email_verification: true,
-      })
+      .post(`${url}/api/${type}/register`, dt)
       .then((res) => {
         const data = res.data;
 
-        console.log(data);
-
         if (data.status === "success") {
-          navigate("/");
+          setShowVerificationPage(true);
         } else {
           const errors = data.message;
 
           for (const error of errors) {
             toast.error(error.msg);
           }
-          // console.log(errors);
-          console.log(data);
+
         }
       });
-  };
+
+  }
+
+  const apiAdd = (type,dt)=>{
+
+    axios.post(`${url}/api/${type}/register`, dt).then((res) => {
+      const data = res.data;
+
+      if (data.status === "success") {
+        navigate("/");
+      } else {
+        const errors = data.message;
+       
+        for (const error of errors) {
+          toast.error(error.msg);
+        }
+
+        
+      }
+    });
+
+  }
+
 
   return (
     <>
-      <ProcessSign active2={true} />
-
       <ToastContainer position="top-left" theme="colored" />
 
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      {
+        showVerificationPage ?
+        <div className="px-[15px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-full">
+          <img src={email_image} className="w-[300px] max-w-full mx-auto" />
+          <p className="font-semibold text-[18px] text-center my-[20px]">We Have sent a Verification code to Your Email</p>
+          <input onChange={(e)=>setCode(e.target.value)} type="text" placeholder="Enter Your Code" className="block w-full border-2 outline-none py-[10px] px-[15px] rounded-[10px]" />
+
+          <button onClick={addUser} className="grid place-items-center w-[150px] h-[40px] bg-main text-white mx-auto mt-[20px]">Verify Code</button>
+        </div>
+
+        :
+        <>
+      <ProcessSign active2={true} />
+
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Register Your Account
@@ -108,7 +166,7 @@ const Signup = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={registerUser}>
+          <form className="space-y-6" onSubmit={verifyUser}>
             <div>
               <label
                 htmlFor="first_name"
@@ -218,6 +276,18 @@ const Signup = () => {
                   required
                   className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:main-600 sm:text-sm sm:leading-6"
                 />
+
+                <div className="info">
+                 <p className="flex items-center gap-[5px] text-[14px] mt-[5px] mb-[7px]"><GoInfo /> Set up a Strong Password With Atleast:</p>
+
+                 <ul className="text-[12px] font-semibold">
+                  <li>. 8 caracteres</li>
+                  <li>. 1 Special Char (#,~*)</li>
+                  <li>. 1 Number</li>
+                  <li>. 1 Uppercase Letter</li>
+                 </ul>
+                
+                </div>
               </div>
             </div>
 
@@ -263,6 +333,11 @@ const Signup = () => {
           </p>
         </div>
       </div>
+      </>
+      }
+
+
+      
     </>
   );
 };
