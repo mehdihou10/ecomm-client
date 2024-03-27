@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { url } from "../api/api.url";
 import { ToastContainer, toast } from "react-toastify";
+import axios from 'axios';
+import email_image from '../images/email.png';
+import { IoMdRefresh } from "react-icons/io";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [showEmailPage, setShowEmailPage] = useState(false);
   const navigate = useNavigate("");
 
   const handleClick = async (e) => {
@@ -17,22 +21,79 @@ const Login = () => {
       body: JSON.stringify({ email, password }),
     });
     const json = await response.json();
-    console.log(json);
+    
     if (json.status === "fail") {
       const errors = json.message
       for (const error of errors) {
         toast.error(error.msg);
       }
     }
-    if (json.status === "success") {
-      localStorage.setItem("token", json.token);
+    else if (json.status === "success") {
       navigate("/");
+    } else{
+      toast.error('Something wrong happend')
     }
   };
+
+  const sendPasswordEmail = ()=>{
+
+    axios.post(`${url}/api/all/verify_email`,{email})
+    .then((res)=>{
+
+      const data = res.data;
+
+      if(data.status === "fail"){
+
+        const errors = data.message;
+
+        for(const error of errors){
+
+          toast.error(error.msg);
+
+        }
+
+      } else if(data.status === "success"){
+
+        axios.post(`${url}/api/all/send_email`,{email})
+        .then((res)=>{
+
+          const data = res.data;
+
+          if(data.status === "success"){
+            setShowEmailPage(true);
+
+          } else if(data.status === "fail"){
+            toast.error(data.message);
+          } else{
+            toast.error('Something wrong happend')
+          }
+        })
+
+        
+      } else{
+        toast.error('Something wrong happend')
+      }
+    })
+  }
   return (
     <>
       <ToastContainer position="top-left" theme="colored" />
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+
+      {
+        showEmailPage ?
+        <div className="px-[15px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-full">
+          <img src={email_image} className="w-[300px] max-w-full mx-auto" />
+          <p className="font-semibold text-[18px] text-center my-[20px]">We Have sent a Link to Reset Your Password</p>
+
+          <IoMdRefresh onClick={()=>{
+            setShowEmailPage(false);
+            setEmail("");
+          }} className="text-main text-[30px] mx-auto cursor-pointer" />
+          <p className="text-center text-[14px]">(if you have set new password click here)</p>
+        </div>
+
+      
+      :<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
@@ -70,12 +131,12 @@ const Login = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                  <span
+                    className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer select-none"
+                    onClick={sendPasswordEmail}
                   >
                     Forgot password?
-                  </a>
+                  </span>
                 </div>
               </div>
               <div className="mt-2">
@@ -113,6 +174,11 @@ const Login = () => {
           </p>
         </div>
       </div>
+
+
+      }
+
+
     </>
   );
 };

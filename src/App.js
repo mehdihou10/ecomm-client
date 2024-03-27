@@ -12,6 +12,7 @@ import {
   Signup,
   Login,
   CheckboxType,
+  ResetPassword
 } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
@@ -37,6 +38,7 @@ function App() {
         <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
 
         <Route path="Contact" element={<Contact />} />
+        <Route path="reset_password/:userToken" element={<ResetPassword />}/>
       </Routes>
     </>
   );

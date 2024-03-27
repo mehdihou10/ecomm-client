@@ -7,7 +7,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import email_image from '../images/email.png'
-import { GoInfo } from "react-icons/go";
+import InfoPassword from "../components/Info.Password";
 
 
 const Signup = () => {
@@ -107,13 +107,16 @@ const Signup = () => {
 
         if (data.status === "success") {
           setShowVerificationPage(true);
-        } else {
+        } else if(data.status === "fail") {
           const errors = data.message;
 
           for (const error of errors) {
             toast.error(error.msg);
           }
 
+        } else{
+
+          toast.error('Something wrong happend')
         }
       });
 
@@ -126,13 +129,17 @@ const Signup = () => {
 
       if (data.status === "success") {
         navigate("/");
-      } else {
+      } else if(data.status === "fail") {
         const errors = data.message;
        
         for (const error of errors) {
           toast.error(error.msg);
         }
 
+        
+      } else{
+
+        toast.error('Something wrong happend');
         
       }
     });
@@ -277,17 +284,8 @@ const Signup = () => {
                   className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:main-600 sm:text-sm sm:leading-6"
                 />
 
-                <div className="info">
-                 <p className="flex items-center gap-[5px] text-[14px] mt-[5px] mb-[7px]"><GoInfo /> Set up a Strong Password With Atleast:</p>
-
-                 <ul className="text-[12px] font-semibold">
-                  <li>. 8 caracteres</li>
-                  <li>. 1 Special Char (#,~*)</li>
-                  <li>. 1 Number</li>
-                  <li>. 1 Uppercase Letter</li>
-                 </ul>
+                <InfoPassword />
                 
-                </div>
               </div>
             </div>
 
