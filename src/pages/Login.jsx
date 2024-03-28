@@ -6,6 +6,9 @@ import axios from "axios";
 import email_image from "../images/email.png";
 import { IoMdRefresh } from "react-icons/io";
 import { useCookies } from "react-cookie";
+import {isSigned} from '../store/slices/sign.slice';
+import {useDispatch} from 'react-redux';
+
 
 const Login = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -13,6 +16,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showEmailPage, setShowEmailPage] = useState(false);
   const navigate = useNavigate("");
+
+  const dispatch = useDispatch();
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -25,6 +30,7 @@ const Login = () => {
     const expirationDate = new Date();
     expirationDate.setMonth(expirationDate.getMonth() + 1);
     setCookie("user", json.token,{expires: expirationDate});
+    dispatch(isSigned())
 
     if (json.status === "fail") {
       const errors = json.message;

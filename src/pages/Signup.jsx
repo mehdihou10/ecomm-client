@@ -9,9 +9,13 @@ import "react-toastify/dist/ReactToastify.css";
 import email_image from "../images/email.png";
 import InfoPassword from "../components/Info.Password";
 import { useCookies } from "react-cookie";
+import {isSigned} from '../store/slices/sign.slice';
+import {useDispatch} from 'react-redux';
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [cookie,setCookie] = useCookies(["user"]);
 
@@ -116,6 +120,7 @@ const Signup = () => {
         const expirationDate = new Date();
         expirationDate.setMonth(expirationDate.getMonth() + 1);
         setCookie("user", data.token, { expires: expirationDate });
+        dispatch(isSigned())
 
         navigate("/");
       } else if (data.status === "fail") {

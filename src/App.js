@@ -16,8 +16,21 @@ import {
 } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
+import {useDispatch} from 'react-redux';
+import {isSigned} from './store/slices/sign.slice';
+import { useEffect } from "react";
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+
+    dispatch(isSigned());
+    
+  },[])
+
+  
   return (
     <>
       <Routes>
