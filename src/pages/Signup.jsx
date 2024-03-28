@@ -13,7 +13,7 @@ import { useCookies } from "react-cookie";
 const Signup = () => {
   const navigate = useNavigate();
 
-  const [_,setCookie] = useCookies(["user"]);
+  const [cookie,setCookie] = useCookies(["user"]);
 
   const [showVerificationPage, setShowVerificationPage] = useState(false);
   const [code, setCode] = useState("");
