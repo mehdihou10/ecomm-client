@@ -6,7 +6,7 @@ import { url } from "../api/api.url";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import email_image from '../images/email.png'
+import email_image from '../images/email.png';
 import InfoPassword from "../components/Info.Password";
 
 
