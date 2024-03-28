@@ -8,10 +8,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import email_image from '../images/email.png';
 import InfoPassword from "../components/Info.Password";
+import {useCookies} from 'react-cookie';
 
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  const [setCookie] = useCookies(['cookie-name']);
 
   const [showVerificationPage,setShowVerificationPage] = useState(false);
   const [code,setCode] = useState('');
@@ -128,6 +131,11 @@ const Signup = () => {
       const data = res.data;
 
       if (data.status === "success") {
+
+    const expirationDate = new Date();
+    expirationDate.setMonth(expirationDate.getMonth() + 1);
+    setCookie("user", data.token,{expires: expirationDate});
+        
         navigate("/");
       } else if(data.status === "fail") {
         const errors = data.message;
