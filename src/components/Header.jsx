@@ -1,14 +1,17 @@
 import {useState,useEffect} from 'react'
 import {Link} from 'react-router-dom';
 import { IoSearchSharp } from "react-icons/io5";
-import { FaBars,FaChevronDown,FaChevronUp } from "react-icons/fa";
+import { FaBars,FaChevronDown,FaChevronUp,FaRegHeart } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
-import { LuShoppingCart } from "react-icons/lu";
-import { FaRegHeart } from "react-icons/fa";
-import {useSelector} from 'react-redux';
+import { LuShoppingCart,LuLogOut } from "react-icons/lu";
+import { AiFillHome } from "react-icons/ai";
+import {useSelector,useDispatch} from 'react-redux';
+import {isSigned} from '../store/slices/sign.slice';
 import axios from 'axios';
 import {url} from '../api/api.url';
 import {useCookies} from 'react-cookie';
+import Swal from 'sweetalert2';
+
 
 
 const Search = ()=>{
@@ -51,9 +54,19 @@ const Sign = ()=>(
 
 const Profile = ()=>{
 
-    const [cookie,setCookie] = useCookies(['user']);
+    const dispatch = useDispatch();
+
+    const [cookie,setCookie,removeCookie] = useCookies(['user']);
     const [userData,setUserData] = useState({});
     const [showOptions,setShowOptions] = useState(false);
+
+    document.addEventListener('click',(e)=>{
+
+        if(e.target.dataset.info !== "profile"){
+
+            setShowOptions(false);
+        }
+    })
 
     useEffect(()=>{
 
@@ -68,29 +81,54 @@ const Profile = ()=>{
 
             if(data.status === "success"){
                 setUserData(data.user)
-            } else{
-
-                window.location.reload();
             }
 
         })
 
     },[])
 
+    const logout = ()=>{
+
+        Swal.fire({
+            icon: "warning",
+            title: "Are You Sure?",
+            showCancelButton: true
+        }).then((res)=>{
+
+            if(res.isConfirmed){
+
+                removeCookie('user');
+                dispatch(isSigned())
+            }
+        })
+        
+    }
+
+
     return (
 
-        <div className="profile text-black">
-            <div className="flex items-center gap-[5px] text-[14px]">
+        <div className="text-black relative">
+            <div data-info="profile" onClick={()=>setShowOptions((prev)=>!prev)} className="profile flex items-center gap-[5px] cursor-pointer text-[14px]">
 
-            <img src={userData.image} className='w-[30px]' />
-            <h3 className='font-semibold'>{userData.first_name}</h3>
+            <img data-info="profile" src={userData.image} className='w-[30px]' />
+            <h3 data-info="profile" className='font-semibold'>{userData.first_name}</h3>
             {
-                showOptions ? <FaChevronUp onClick={()=>setShowOptions(false)} className='cursor-pointer' />
+                showOptions ? <div data-info="profile" className="cursor-pointer"><FaChevronUp className='pointer-events-none' /></div>
 
-                :<FaChevronDown onClick={()=>setShowOptions(true)} className='cursor-pointer' />
+                : <div data-info="profile" className="cursor-pointer"><FaChevronDown className='pointer-events-none' /></div>
             }
 
             </div>
+
+            {showOptions && <div className="absolute -left-[50px] bg-[#f3f3f3] rounded-[6px] w-[150px] shadow-lg">
+                <Link to={`/user_dashboard/${userData.id}`} className='flex items-center gap-[5px] py-[12px] px-[15px] border-b'>
+                    <AiFillHome /> Dashboard
+                </Link>
+
+                <button onClick={logout} className='flex items-center gap-[5px] py-[12px] px-[15px] cursor-pointer'>
+                    <LuLogOut /> Logout
+                </button>
+            </div>}
 
 
         </div>

@@ -27,10 +27,7 @@ const Login = () => {
       body: JSON.stringify({ email, password }),
     });
     const json = await response.json();
-    const expirationDate = new Date();
-    expirationDate.setMonth(expirationDate.getMonth() + 1);
-    setCookie("user", json.token,{expires: expirationDate});
-    dispatch(isSigned())
+
 
     if (json.status === "fail") {
       const errors = json.message;
@@ -38,6 +35,11 @@ const Login = () => {
         toast.error(error.msg);
       }
     } else if (json.status === "success") {
+      const expirationDate = new Date();
+      expirationDate.setMonth(expirationDate.getMonth() + 1);
+      
+      setCookie("user", json.token,{expires: expirationDate});
+      dispatch(isSigned())   
       navigate("/");
     } else {
       toast.error("Something wrong happend");
