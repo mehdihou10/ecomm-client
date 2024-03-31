@@ -1,7 +1,8 @@
 import {useState,useEffect,useRef} from 'react'
 import {Link} from 'react-router-dom';
 import { IoSearchSharp } from "react-icons/io5";
-import { FaChevronDown,FaChevronUp,FaRegHeart } from "react-icons/fa";
+import { FaChevronDown,FaChevronUp,FaRegHeart,FaUser } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa6";
 import { HiBars3 } from "react-icons/hi2";
 import { MdClose } from "react-icons/md";
 import { LuShoppingCart,LuLogOut } from "react-icons/lu";
@@ -123,16 +124,16 @@ const Profile = ()=>{
             </div>
 
             {showOptions && <div className="absolute -left-[50px] bg-[#f3f3f3] rounded-[6px] w-[200px] shadow-lg">
-                <Link to={`/user_dashboard/${userData.id}`} className='flex items-center gap-[5px] py-[12px] px-[15px] border-b'>
+                <Link to={`/user_dashboard/${userData.first_name}_${userData.last_name}`} className='flex items-center gap-[5px] py-[12px] px-[15px]'>
                     <AiFillHome /> Dashboard
                 </Link>
 
 
-                <Link to='/cart' className='flex md:hidden items-center gap-[5px] py-[12px] px-[15px] border-b'>
+                <Link to='/cart' className='flex md:hidden items-center gap-[5px] py-[12px] px-[15px]'>
                     <LuShoppingCart /> Shop Cart
                 </Link>
 
-                <Link to='/wishlist' className='flex md:hidden items-center gap-[5px] py-[12px] px-[15px] border-b'>
+                <Link to='/wishlist' className='flex md:hidden items-center gap-[5px] pt-[12px] pb-[20px] px-[15px] border-b'>
                     <FaRegHeart /> Wishlist
                 </Link>
 
@@ -149,9 +150,53 @@ const Profile = ()=>{
 
 const ToggleSidebar = ()=>{
 
+    const dispatch = useDispatch();
+
+    const isSign = useSelector(state=>state.isSigned);
+
+    const [cookie,setCookie,removeCookie] = useCookies(['user']);
+
     const [toggle,setToggle] = useState(false);
+    const [userData,setUserData] = useState({});
+
+    useEffect(()=>{
+
+        if(isSign){
+
+            axios.post(`${url}/api/decode`,null,{
+                headers: {
+                    Authorization: `Bearer ${cookie.user}`
+                }
+            }).then((res)=>{
+
+                const data = res.data;
+
+                if(data.status === "success" && data.user){
+                    setUserData(data.user);
+                }
+            })
+        }
+
+    },[])
 
     const sideBarRef = useRef();
+
+    const logout = ()=>{
+
+        Swal.fire({
+            icon: "warning",
+            title: "Are You Sure?",
+            showCancelButton: true
+        }).then((res)=>{
+
+            if(res.isConfirmed){
+
+                removeCookie('user');
+                dispatch(isSigned())
+            }
+        })
+        
+    }
 
     return(
     <>
@@ -161,9 +206,48 @@ const ToggleSidebar = ()=>{
 
 
             <div ref={sideBarRef} className={`sidebar px-[15px] py-[10px] fixed h-full ${toggle ? 'left-0': '-left-[300px]'} duration-500 top-0 w-[300px] max-w-full bg-white z-[11] overflow-y-auto`}>
-                <MdClose className='text-[30px] text-icon cursor-pointer ml-auto' onClick={()=>{
-                    setToggle(false);
-                }} />
+                <MdClose className='text-[30px] text-icon cursor-pointer ml-auto' onClick={()=>setToggle(false)} />
+
+                <div className="account mt-[20px]">
+                    <h3 className='text-gray-500 text-semibold text-[14px]'>Account</h3>
+
+                    {
+                        isSign ?
+
+                        <>
+
+                     <Link to={`/user_dashboard/${userData.first_name}_${userData.last_name}`} className="flex items-center gap-[20px] mt-[15px]">
+                        <AiFillHome className='text-[18px] text-icon' /> 
+                        Dashboard
+                    </Link>
+
+                    <button onClick={logout} className="cursor-pointer flex items-center gap-[20px] mt-[15px] w-full">
+                        <LuLogOut className='text-[23px] text-icon' /> 
+                        Logout
+                    </button>
+
+                    </>
+
+                    :
+                    <>
+                    
+                    <Link to="/auth/login" className="flex items-center gap-[20px] mt-[15px]">
+                        <FaUser className='text-[18px] text-icon' /> 
+                        Login
+                    </Link>
+
+                    <Link to="/auth/type" className="flex items-center gap-[20px] mt-[15px]">
+                        <FaUserPlus className='text-[23px] text-icon' /> 
+                        Register
+                    </Link>
+
+                    </>
+                    
+                    
+
+                       }
+
+                </div>
             </div>
         
 
@@ -174,7 +258,7 @@ const ToggleSidebar = ()=>{
 //main component
 const Header = () => {
 
-    const isSigned = useSelector(state=>state.isSigned);
+    const isSign = useSelector(state=>state.isSigned);
 
   return (
 
@@ -197,11 +281,11 @@ const Header = () => {
 
         <div className='flex items-center gap-[50px]'>
 
-        {isSigned && <Profile /> }  
+        {isSign && <Profile /> }  
         <Wishlist />
         <Shop />
 
-        {!isSigned && <Sign />}
+        {!isSign && <Sign />}
         
 
         </div>
@@ -211,7 +295,7 @@ const Header = () => {
         <div className="flex items-center gap-[20px] md:hidden">
 
             {
-                isSigned ?
+                isSign ?
                 <Profile />
 
                 : <> 
