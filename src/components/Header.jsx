@@ -1,7 +1,8 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useRef} from 'react'
 import {Link} from 'react-router-dom';
 import { IoSearchSharp } from "react-icons/io5";
-import { FaBars,FaChevronDown,FaChevronUp,FaRegHeart } from "react-icons/fa";
+import { FaChevronDown,FaChevronUp,FaRegHeart } from "react-icons/fa";
+import { HiBars3 } from "react-icons/hi2";
 import { MdClose } from "react-icons/md";
 import { LuShoppingCart,LuLogOut } from "react-icons/lu";
 import { AiFillHome } from "react-icons/ai";
@@ -13,7 +14,7 @@ import {useCookies} from 'react-cookie';
 import Swal from 'sweetalert2';
 
 
-
+//local components
 const Search = ()=>{
 
     return(
@@ -113,21 +114,32 @@ const Profile = ()=>{
             <img data-info="profile" src={userData.image} className='w-[30px]' />
             <h3 data-info="profile" className='font-semibold'>{userData.first_name}</h3>
             {
-                showOptions ? <div data-info="profile" className="cursor-pointer"><FaChevronUp className='pointer-events-none' /></div>
+                showOptions ? 
+                <div data-info="profile" className="cursor-pointer"><FaChevronUp className='pointer-events-none' /></div>
 
                 : <div data-info="profile" className="cursor-pointer"><FaChevronDown className='pointer-events-none' /></div>
             }
 
             </div>
 
-            {showOptions && <div className="absolute -left-[50px] bg-[#f3f3f3] rounded-[6px] w-[150px] shadow-lg">
+            {showOptions && <div className="absolute -left-[50px] bg-[#f3f3f3] rounded-[6px] w-[200px] shadow-lg">
                 <Link to={`/user_dashboard/${userData.id}`} className='flex items-center gap-[5px] py-[12px] px-[15px] border-b'>
                     <AiFillHome /> Dashboard
                 </Link>
 
-                <button onClick={logout} className='flex items-center gap-[5px] py-[12px] px-[15px] cursor-pointer'>
+
+                <Link to='/cart' className='flex md:hidden items-center gap-[5px] py-[12px] px-[15px] border-b'>
+                    <LuShoppingCart /> Shop Cart
+                </Link>
+
+                <Link to='/wishlist' className='flex md:hidden items-center gap-[5px] py-[12px] px-[15px] border-b'>
+                    <FaRegHeart /> Wishlist
+                </Link>
+
+                <button onClick={logout} className='flex items-center gap-[5px] py-[12px] px-[15px] cursor-pointer md:border-b'>
                     <LuLogOut /> Logout
                 </button>
+
             </div>}
 
 
@@ -135,7 +147,31 @@ const Profile = ()=>{
     )
 }
 
+const ToggleSidebar = ()=>{
 
+    const [toggle,setToggle] = useState(false);
+
+    const sideBarRef = useRef();
+
+    return(
+    <>
+    {toggle && <span onClick={()=>setToggle(false)} className="fixed w-full h-full top-0 left-0 bg-[#000000b0] z-[11]"></span>}  
+    
+        <HiBars3 className='text-[30px] text-icon cursor-pointer' onClick={()=>setToggle(true)} />
+
+
+            <div ref={sideBarRef} className={`sidebar px-[15px] py-[10px] fixed h-full ${toggle ? 'left-0': '-left-[300px]'} duration-500 top-0 w-[300px] max-w-full bg-white z-[11] overflow-y-auto`}>
+                <MdClose className='text-[30px] text-icon cursor-pointer ml-auto' onClick={()=>{
+                    setToggle(false);
+                }} />
+            </div>
+        
+
+    </>
+    )
+}
+
+//main component
 const Header = () => {
 
     const isSigned = useSelector(state=>state.isSigned);
@@ -146,11 +182,12 @@ const Header = () => {
 
     <div className='px-[20px] py-[25px] border-b flex justify-between items-center'>
 
-        <div className="toggle text-[25px] cursor-pointer md:hidden">
-            <FaBars />
-        </div>
+        <div className="flex items-center gap-[10px]">
 
+        <div className="hidden md:block"><ToggleSidebar /></div>
         <Link to='/'>Logo</Link>
+
+        </div>
 
         <div className="search-bar hidden lg:block">
             <Search />
@@ -172,16 +209,22 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-[20px] md:hidden">
+
             {
                 isSigned ?
                 <Profile />
-                :
-                <>
+
+                : <> 
                 <Shop />
                 <Wishlist />
-                </>
+                 </>
+
             }
+                
+            
         </div>
+
+        <div className="md:hidden"><ToggleSidebar /></div>
       
     </div>
 

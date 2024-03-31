@@ -9,7 +9,8 @@ module.exports = {
         main: "#0d53bb",
         bold: "#938073",
         light: "#e2d5cc42",
-        background: "#f1f3f7"
+        background: "#f1f3f7",
+        icon: "#0000009c"
       }
     },
     screens:{
