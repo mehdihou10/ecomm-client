@@ -158,6 +158,7 @@ const ToggleSidebar = ()=>{
 
     const [toggle,setToggle] = useState(false);
     const [userData,setUserData] = useState({});
+    const [categories,setCategories] = useState([]);
 
     useEffect(()=>{
 
@@ -176,6 +177,16 @@ const ToggleSidebar = ()=>{
                 }
             })
         }
+
+        axios.get(`${url}/api/categories`)
+        .then((res)=>{
+
+            const data = res.data;
+
+            if(data.status === "success"){
+                setCategories(data.categories);
+            }
+        })
 
     },[])
 
@@ -197,6 +208,8 @@ const ToggleSidebar = ()=>{
         })
         
     }
+
+    
 
     return(
     <>
@@ -247,6 +260,23 @@ const ToggleSidebar = ()=>{
 
                        }
 
+                </div>
+
+                <div className="categories mt-[30px]">
+                <h3 className='text-gray-500 text-semibold text-[14px] mb-[20px]'>Categories</h3>
+
+                {
+                    categories.map((category,index)=>(
+
+                        <Link key={category.id} className={`flex items-center gap-[10px]
+                        hover:bg-gray-300 py-[10px] px-[15px] duration-500 rounded-[10px]`}>
+
+                            <img className='w-[30px]' src={category.image} />
+
+                            <h3 className='text-[15px] text-semibold'>{category.name}</h3>
+                        </Link>
+                    ))
+                }
                 </div>
             </div>
         
