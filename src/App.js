@@ -12,25 +12,21 @@ import {
   Signup,
   Login,
   CheckboxType,
-  ResetPassword
+  ResetPassword,
 } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
-import {useDispatch} from 'react-redux';
-import {isSigned} from './store/slices/sign.slice';
+import { useDispatch } from "react-redux";
+import { isSigned } from "./store/slices/sign.slice";
 import { useEffect } from "react";
 
 function App() {
-
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-
+  useEffect(() => {
     dispatch(isSigned());
-    
-  },[])
+  }, []);
 
-  
   return (
     <>
       <Routes>
@@ -51,7 +47,7 @@ function App() {
         <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
 
         <Route path="Contact" element={<Contact />} />
-        <Route path="reset_password/:userToken" element={<ResetPassword />}/>
+        <Route path="reset_password/:userToken" element={<ResetPassword />} />
       </Routes>
     </>
   );
