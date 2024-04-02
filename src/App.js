@@ -43,8 +43,8 @@ function App() {
         <Route
           path="vendor_dashboard/:username"
           element={<VendorDashboard />}
-        />       <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
-
+        />{" "}
+        <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
         <Route path="Contact" element={<Contact />} />
         <Route path="reset_password/:userToken" element={<ResetPassword />} />
       </Routes>
