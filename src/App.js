@@ -7,6 +7,10 @@ import {
   WishList,
   UserDashboard,
   VendorDashboard,
+  VendorProducts,
+  VendorOrders,
+  VendorHistory,
+  VendorProfile,
   AdminDashboard,
   Contact,
   Signup,
@@ -40,10 +44,13 @@ function App() {
         <Route path="wishlist" element={<WishList />} />
         <Route path="checkout" element={<Checkout />} />
         <Route path="user_dashboard/:username" element={<UserDashboard />} />
-        <Route
-          path="vendor_dashboard/:username"
-          element={<VendorDashboard />}
-        />{" "}
+
+        <Route path="vendor_dashboard/:username" element={<VendorDashboard />} />
+        <Route path="vendor_dashboard/:username/products" element={<VendorProducts />} />
+        <Route path="vendor_dashboard/:username/orders" element={<VendorOrders />} />
+        <Route path="vendor_dashboard/:username/profile" element={<VendorProfile />} />
+        <Route path="vendor_dashboard/:username/history" element={<VendorHistory />} />
+
         <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
         <Route path="Contact" element={<Contact />} />
         <Route path="reset_password/:userToken" element={<ResetPassword />} />
