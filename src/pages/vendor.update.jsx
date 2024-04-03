@@ -86,8 +86,8 @@ const VendorUpdate = () => {
 
   return (
     <div className="flex gap-[20px]">
-      <SideBar></SideBar>
-      <div className="py-20">
+      <DashboardSidebar />
+      <div className="py-20 px-[20px] bg-white">
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
