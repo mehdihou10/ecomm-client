@@ -23,6 +23,7 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { isSigned } from "./store/slices/sign.slice";
 import { useEffect } from "react";
+import VendorUpdate from "./pages/vendor.update";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,11 +46,30 @@ function App() {
         <Route path="checkout" element={<Checkout />} />
         <Route path="user_dashboard/:username" element={<UserDashboard />} />
 
-        <Route path="vendor_dashboard/:username" element={<VendorDashboard />} />
-        <Route path="vendor_dashboard/:username/products" element={<VendorProducts />} />
-        <Route path="vendor_dashboard/:username/orders" element={<VendorOrders />} />
-        <Route path="vendor_dashboard/:username/profile" element={<VendorProfile />} />
-        <Route path="vendor_dashboard/:username/history" element={<VendorHistory />} />
+        <Route
+          path="vendor_dashboard/:username"
+          element={<VendorDashboard />}
+        />
+        <Route
+          path="vendor_dashboard/:username/products"
+          element={<VendorProducts />}
+        />
+        <Route
+          path="vendor_dashboard/:username/orders"
+          element={<VendorOrders />}
+        />
+        <Route
+          path="vendor_dashboard/:username/profile"
+          element={<VendorProfile />}
+        />
+        <Route
+          path="vendor_dashboard/:username/history"
+          element={<VendorHistory />}
+        />
+        <Route
+          path="vendor_dashboard/:username/profile/update"
+          element={<VendorUpdate />}
+        />
 
         <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
         <Route path="Contact" element={<Contact />} />
