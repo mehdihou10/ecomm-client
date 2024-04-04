@@ -39,7 +39,27 @@ const Login = () => {
       expirationDate.setMonth(expirationDate.getMonth() + 1);
       
       setCookie("user", json.token,{expires: expirationDate});
-      dispatch(isSigned())   
+      dispatch(isSigned())
+      
+      axios.post(`${url}/api/decode`,null,{
+        headers: {
+          Authorization: `Bearer ${json.token}`
+        }
+      }).then((res)=>{
+        const data = res.data;
+
+        if(data.status === "success"){
+          const user = data.user;
+
+          if(user.type === "client"){
+
+            navigate("/")
+          } else if(user.type === "vendor"){
+
+            navigate(`/vendor_dashboard/${user.first_name}_${user.last_name}`)
+          }
+        }
+      })
       navigate("/");
     } else {
       toast.error("Something wrong happend");

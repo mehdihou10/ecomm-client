@@ -117,12 +117,20 @@ const Signup = () => {
       const data = res.data;
 
       if (data.status === "success") {
-        const expirationDate = new Date();
-        expirationDate.setMonth(expirationDate.getMonth() + 1);
-        setCookie("user", data.token, { expires: expirationDate });
-        dispatch(isSigned())
+        
+        if(type === "users"){
 
-        navigate("/");
+          const expirationDate = new Date();
+          expirationDate.setMonth(expirationDate.getMonth() + 1);
+          setCookie("user", data.token, { expires: expirationDate });
+
+          dispatch(isSigned())
+          navigate("/");
+
+        } else if(type === "vendors"){
+          navigate('/auth/login')
+        }
+        
       } else if (data.status === "fail") {
         const errors = data.message;
 
