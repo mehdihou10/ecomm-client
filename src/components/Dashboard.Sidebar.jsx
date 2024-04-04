@@ -14,7 +14,7 @@ const DashboardSidebar = () => {
     <div className='w-[200px] max-w-full p-[20px]'>
       <a href="">Logo</a>
 
-      <ul className='flex flex-col gap-[20px] mt-[40px]'>
+      <ul className='flex flex-col  gap-[20px] mt-[40px]'>
         <li><Link to="" className='sidebar-item active hover:active'><div className="icon"><AiFillHome /></div>Dashboard</Link></li>
         <li><Link to="" className='sidebar-item hover:active'><div className="icon"><BiStore /></div>Products</Link></li>
         <li><Link to="" className='sidebar-item hover:active'><div className="icon"><LiaTableSolid /></div>Orders</Link></li>

@@ -19,20 +19,20 @@ const VendorProfile = () => {
       })
       .then((res) => {
         const data = res.data;
-
         if (data.status === "success") {
           setUserData(data.user);
         }
       });
   }, []);
   return (
-    <div className="flex gap-[20px]">
+    <div className="flex bg-white gap-[20px]">
       <DashboardSidebar />
       <div className="py-20 bg-white px-[20px]">
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             Profile
           </h3>
+          <img src={userData.image} alt="not shown" />
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
             Personal details
           </p>
@@ -77,18 +77,6 @@ const VendorProfile = () => {
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 {userData.phone_number}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                Image
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-                incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-                consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                proident. Irure nostrud pariatur mollit ad adipisicing
-                reprehenderit deserunt qui eu.
               </dd>
             </div>
             <Link to="/vendor_dashboard/:username/profile/update">
