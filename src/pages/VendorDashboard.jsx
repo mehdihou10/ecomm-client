@@ -7,7 +7,7 @@ const VendorDashboard = () => {
   return (
 
 <div className="flex">
-      <DashboardSidebar />
+      <DashboardSidebar active={1} />
 
       
     </div>

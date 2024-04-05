@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {isCookieExists} from '../../functions/cookies';
+
 
 const signSlice = createSlice({
 
@@ -9,7 +9,12 @@ const signSlice = createSlice({
 
         isSigned: (state,action)=>{
 
-            return isCookieExists();
+            if(window.localStorage.getItem('user')){
+
+                return true;
+
+            }
+            return false;
         }
     }
 })

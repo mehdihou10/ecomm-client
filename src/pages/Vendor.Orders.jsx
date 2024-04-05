@@ -5,7 +5,7 @@ const VendorOrders = () => {
   return (
     <div className='flex'>
 
-        <DashboardSidebar />
+        <DashboardSidebar active={3} />
         orders
       
     </div>

@@ -1,44 +1,37 @@
 import DashboardSidebar from "../components/Dashboard.Sidebar";
-import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { url } from "../api/api.url";
 import { ToastContainer, toast } from "react-toastify";
-import SideBar from "../components/vendor.sidebar";
+import {jwtDecode} from 'jwt-decode';
+
 
 const VendorUpdate = () => {
   const [userData, setUserData] = useState({});
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [cookie, setCookie, removeCookie] = useCookies(["user"]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const navigate = useNavigate();
   useEffect(() => {
-    axios
-      .post(`${url}/api/decode`, null, {
-        headers: {
-          Authorization: `Bearer ${cookie.user}`,
-        },
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.status === "success") {
-          setUserData(data.user);
-          setFirstName(data.user.first_name);
-          setLastName(data.user.last_name);
-          setPhoneNumber(data.user.phone_number);
-        }
-      });
-  }, [cookie.user]);
+  
+    const data = jwtDecode(window.localStorage.getItem('user'));
+       
+          setUserData(data);
+          setFirstName(data.first_name);
+          setLastName(data.last_name);
+          setPhoneNumber(data.phone_number);
+          setSelectedImage(data.image);
+        
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("done");
-    e.preventDefault();
-    const response = await fetch(`${url}/api/all/update/${userData.id}`, {
+    const response = await fetch(`${url}/api/vendors/update/${userData.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -46,24 +39,20 @@ const VendorUpdate = () => {
         last_name: lastName,
         email: userData.email,
         phone_number: phoneNumber,
-        image: userData.image,
-        type: userData.type,
+        image: selectedImage,
       }),
     });
-    console.log(response);
-    console.log(firstName);
-    const json = await response.json();
-    console.log(json);
+   
+    const json = await response.json(); 
+
+    
     if (json.status === "fail") {
       const errors = json.message;
       for (const error of errors) {
         toast.error(error.msg);
       }
     } else if (json.status === "success") {
-      const expirationDate = new Date();
-      expirationDate.setMonth(expirationDate.getMonth() + 1);
-
-      setCookie("user", json.token, { expires: expirationDate });
+      window.localStorage.setItem('user',json.token);
       navigate(
         `/vendor_dashboard/${userData.first_name}_${userData.last_name}/profile`
       );
@@ -71,7 +60,7 @@ const VendorUpdate = () => {
       toast.error("Something wrong happend");
     }
   };
-  const [selectedImage, setSelectedImage] = useState(null);
+  
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -85,20 +74,37 @@ const VendorUpdate = () => {
   };
 
   return (
+
+    <>
+    <ToastContainer theme="colored" position="top-left" />
+    
     <div className="flex gap-[20px]">
-      <DashboardSidebar />
+
+      <DashboardSidebar active={5} />
       <div className="py-20 px-[20px] bg-white flex-1">
         <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
+          <div className="border-b border-gray-900/10">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Update Profile
             </h2>
+
+            <div className="relative w-fit">
+
+              <input onChange={handleFileChange} type="file" id="profile-image" className="hidden" />
+              <img src={selectedImage} className="w-[100px] h-[100px] object-cover rounded-full" />
+
+              <label htmlFor="profile-image" className="grid place-items-center bottom-[7px] right-[20px] z-[2]
+               bg-main text-white cursor-pointer rounded-[6px] w-[80px] h-[30px] mx-auto shadow-lg">
+                Edit
+                </label>
+            </div>
+
             <p className="mt-1 text-sm leading-6 text-gray-600">
               This information will be displayed publicly so be careful what you
               share.
             </p>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="col-span-full">
+              {/* <div className="col-span-full">
                 <label
                   htmlFor="cover-photo"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -106,15 +112,8 @@ const VendorUpdate = () => {
                   Cover photo
                 </label>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                  {selectedImage ? (
-                    <img
-                      src={selectedImage}
-                      alt="Selected"
-                      width={350}
-                      height={350}
-                      className="max-w-full h-auto"
-                    />
-                  ) : (
+                  
+                 
                     <div className="text-center">
                       <PhotoIcon
                         className="mx-auto h-12 w-12 text-gray-300"
@@ -140,9 +139,9 @@ const VendorUpdate = () => {
                         PNG, JPG, GIF up to 10MB
                       </p>
                     </div>
-                  )}
+                  
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -239,6 +238,8 @@ const VendorUpdate = () => {
         </div>
       </div>
     </div>
+
+    </>
   );
 };
 

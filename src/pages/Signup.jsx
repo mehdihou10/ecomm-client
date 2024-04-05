@@ -120,9 +120,7 @@ const Signup = () => {
         
         if(type === "users"){
 
-          const expirationDate = new Date();
-          expirationDate.setMonth(expirationDate.getMonth() + 1);
-          setCookie("user", data.token, { expires: expirationDate });
+          window.localStorage.setItem("user",data.token);
 
           dispatch(isSigned())
           navigate("/");

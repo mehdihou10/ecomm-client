@@ -8,6 +8,7 @@ import { IoMdRefresh } from "react-icons/io";
 import { useCookies } from "react-cookie";
 import {isSigned} from '../store/slices/sign.slice';
 import {useDispatch} from 'react-redux';
+import {jwtDecode} from 'jwt-decode';
 
 
 const Login = () => {
@@ -35,35 +36,22 @@ const Login = () => {
         toast.error(error.msg);
       }
     } else if (json.status === "success") {
-      const expirationDate = new Date();
-      expirationDate.setMonth(expirationDate.getMonth() + 1);
-      
-      setCookie("user", json.token,{expires: expirationDate});
+
+      window.localStorage.setItem('user',json.token)
       dispatch(isSigned())
-      
-      axios.post(`${url}/api/decode`,null,{
-        headers: {
-          Authorization: `Bearer ${json.token}`
-        }
-      }).then((res)=>{
-        const data = res.data;
 
-        if(data.status === "success"){
-          const user = data.user;
+      const user = jwtDecode(json.token);
 
-          if(user.type === "client"){
+          if(json.type === "client"){
 
             navigate("/")
-          } else if(user.type === "vendor"){
+          } else if(json.type === "vendor"){
 
             navigate(`/vendor_dashboard/${user.first_name}_${user.last_name}`)
+           
           }
         }
-      })
-      navigate("/");
-    } else {
-      toast.error("Something wrong happend");
-    }
+      
   };
 
   const sendPasswordEmail = () => {

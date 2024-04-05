@@ -5,7 +5,7 @@ const VendorHistory = () => {
   return (
     <div className='flex'>
 
-        <DashboardSidebar />
+        <DashboardSidebar active={4} />
         history
       
     </div>

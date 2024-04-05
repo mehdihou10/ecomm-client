@@ -11,8 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { isSigned } from "../store/slices/sign.slice";
 import axios from "axios";
 import { url } from "../api/api.url";
-import { useCookies } from "react-cookie";
 import Swal from "sweetalert2";
+import {jwtDecode} from 'jwt-decode';
 
 //local components
 const Search = () => {
@@ -57,7 +57,6 @@ const Sign = () => (
 const Profile = () => {
   const dispatch = useDispatch();
 
-  const [cookie, setCookie, removeCookie] = useCookies(["user"]);
   const [userData, setUserData] = useState({});
   const [showOptions, setShowOptions] = useState(false);
 
@@ -68,19 +67,10 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    axios
-      .post(`${url}/api/decode`, null, {
-        headers: {
-          Authorization: `Bearer ${cookie.user}`,
-        },
-      })
-      .then((res) => {
-        const data = res.data;
 
-        if (data.status === "success") {
-          setUserData(data.user);
-        }
-      });
+    const data = jwtDecode(window.localStorage.getItem('user'));
+    setUserData(data);
+
   }, []);
 
   const logout = () => {
@@ -90,7 +80,7 @@ const Profile = () => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        removeCookie("user");
+        window.localStorage.removeItem('user');
         dispatch(isSigned());
       }
     });
@@ -158,27 +148,16 @@ const ToggleSidebar = () => {
 
   const isSign = useSelector((state) => state.isSigned);
 
-  const [cookie, setCookie, removeCookie] = useCookies(["user"]);
-
   const [toggle, setToggle] = useState(false);
   const [userData, setUserData] = useState({});
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     if (isSign) {
-      axios
-        .post(`${url}/api/decode`, null, {
-          headers: {
-            Authorization: `Bearer ${cookie.user}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data;
+      
+      const data = jwtDecode(window.localStorage.getItem('user'));
 
-          if (data.status === "success" && data.user) {
-            setUserData(data.user);
-          }
-        });
+      setUserData(data);
     }
 
     axios.get(`${url}/api/categories`).then((res) => {
@@ -199,7 +178,7 @@ const ToggleSidebar = () => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        removeCookie("user");
+        window.localStorage.removeItem('user')
         dispatch(isSigned());
       }
     });

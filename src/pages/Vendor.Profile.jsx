@@ -1,38 +1,27 @@
 import React, { useState, useEffect } from "react";
 import DashboardSidebar from "../components/Dashboard.Sidebar";
-import { PaperClipIcon } from "@heroicons/react/20/solid";
-import axios from "axios";
-import { url } from "../api/api.url";
-import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import SideBar from "../components/vendor.sidebar";
+import {jwtDecode} from 'jwt-decode';
+
 
 const VendorProfile = () => {
   const [userData, setUserData] = useState({});
-  const [cookie, setCookie, removeCookie] = useCookies(["user"]);
   useEffect(() => {
-    axios
-      .post(`${url}/api/decode`, null, {
-        headers: {
-          Authorization: `Bearer ${cookie.user}`,
-        },
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.status === "success") {
-          setUserData(data.user);
-        }
-      });
+   
+    const data = jwtDecode(window.localStorage.getItem('user'));
+
+    setUserData(data);
+    
   }, []);
   return (
-    <div className="flex bg-white gap-[20px]">
-      <DashboardSidebar />
-      <div className="py-20 bg-white px-[20px]">
+    <div className="flex">
+      <DashboardSidebar active={5} />
+      <div className="py-20 bg-white px-[20px] flex-1">
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             Profile
           </h3>
-          <img src={userData.image} alt="not shown" />
+          <img src={userData.image} className="w-[80px]" />
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
             Personal details
           </p>
@@ -79,7 +68,7 @@ const VendorProfile = () => {
                 {userData.phone_number}
               </dd>
             </div>
-            <Link to="/vendor_dashboard/:username/profile/update">
+            <Link to={`/vendor_dashboard/${userData.first_name}_${userData.last_name}/profile/update`}>
               <button
                 className="bg-main py-2 px-6 font-semibold text-white"
               >
@@ -90,6 +79,7 @@ const VendorProfile = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
