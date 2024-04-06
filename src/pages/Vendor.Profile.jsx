@@ -1,27 +1,46 @@
 import React, { useState, useEffect } from "react";
 import DashboardSidebar from "../components/Dashboard.Sidebar";
+import DashboardHeader from "../components/Dashboard.Header";
 import { Link } from "react-router-dom";
-import {jwtDecode} from 'jwt-decode';
+import axios from 'axios';
+import { url } from "../api/api.url";
+import {useCookies} from 'react-cookie';
 
 
 const VendorProfile = () => {
   const [userData, setUserData] = useState({});
+
+  const [cookies,setCookie,removeCookie] = useCookies(['user']);
+  
   useEffect(() => {
    
-    const data = jwtDecode(window.localStorage.getItem('user'));
+    axios.post(`${url}/api/decode`,null,{
+      headers: {
+        Authorization: `Bearer ${cookies.user}`
+      }
+    }).then((res)=>{
 
-    setUserData(data);
+      const data = res.data;
+
+      if(data.status === "success"){
+        setUserData(data.user);
+      }
+    })
+
     
   }, []);
   return (
     <div className="flex">
-      <DashboardSidebar active={5} />
-      <div className="py-20 bg-white px-[20px] flex-1">
+     <div className="hidden md:block"><DashboardSidebar active={5} /></div>
+
+      <div className="flex-1">
+        <DashboardHeader active={5} />
+      <div className="py-20 bg-white px-[20px]">
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             Profile
           </h3>
-          <img src={userData.image} className="w-[80px]" />
+          <img src={userData.image} className="w-[80px] h-[80px] object-cover" />
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
             Personal details
           </p>
@@ -77,6 +96,8 @@ const VendorProfile = () => {
             </Link>
           </dl>
         </div>
+      </div>
+
       </div>
     </div>
 

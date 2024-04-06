@@ -11,6 +11,7 @@ import {
   VendorOrders,
   VendorHistory,
   VendorProfile,
+  VendorUpdate,
   AdminDashboard,
   Contact,
   Signup,
@@ -23,7 +24,7 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { isSigned } from "./store/slices/sign.slice";
 import { useEffect } from "react";
-import VendorUpdate from "./pages/vendor.update";
+
 
 function App() {
   const dispatch = useDispatch();

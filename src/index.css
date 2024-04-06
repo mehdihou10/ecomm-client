@@ -32,7 +32,7 @@ body{
          flex items-center gap-[10px] font-semibold duration-300
     }
     .sidebar-item.active{
-        @apply bg-white shadow-md
+        @apply bg-[#eee] md:bg-white shadow-md
     }
 
     .sidebar-item .icon{

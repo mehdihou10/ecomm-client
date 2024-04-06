@@ -1,14 +1,20 @@
 import DashboardSidebar from "../components/Dashboard.Sidebar";
-import { useCookies } from "react-cookie";
+import DashboardHeader from '../components/Dashboard.Header';
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { url } from "../api/api.url";
+import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
-import {jwtDecode} from 'jwt-decode';
+import { MdClose,MdModeEditOutline } from "react-icons/md";
+import {appUrl} from '../api/app.url';
+import { handleFileChange } from "../functions/image.upload";
+import {useCookies} from 'react-cookie';
 
 
 const VendorUpdate = () => {
+
+  const [cookies,setCookie,removeCookie] = useCookies(['user']);
+  
   const [userData, setUserData] = useState({});
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState("");
@@ -18,13 +24,25 @@ const VendorUpdate = () => {
   const navigate = useNavigate();
   useEffect(() => {
   
-    const data = jwtDecode(window.localStorage.getItem('user'));
+    axios.post(`${url}/api/decode`,null,{
+      headers: {
+        Authorization: `Bearer ${cookies.user}`
+      }
+    }).then((res)=>{
+
+      const data = res.data;
+
+      if(data.status === "success"){
+          setUserData(data.user);
+          setFirstName(data.user.first_name);
+          setLastName(data.user.last_name);
+          setPhoneNumber(data.user.phone_number);
+          setSelectedImage(data.user.image);
+      }
+    })
+
        
-          setUserData(data);
-          setFirstName(data.first_name);
-          setLastName(data.last_name);
-          setPhoneNumber(data.phone_number);
-          setSelectedImage(data.image);
+          
         
   }, []);
 
@@ -52,7 +70,10 @@ const VendorUpdate = () => {
         toast.error(error.msg);
       }
     } else if (json.status === "success") {
-      window.localStorage.setItem('user',json.token);
+      const expirationDate = new Date();
+    expirationDate.setMonth(expirationDate.getMonth() + 1);
+    setCookie("user", json.token,{expires: expirationDate});
+
       navigate(
         `/vendor_dashboard/${userData.first_name}_${userData.last_name}/profile`
       );
@@ -62,16 +83,39 @@ const VendorUpdate = () => {
   };
   
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+
+  //   if (file) {
+
+  //   if (!verifyFileSize(file)) {
+  //     toast.error('File size must be less than 10MB');
+  //     return;
+  //   }
+
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+
+  //       const res = reader.result;
+
+
+  //       if(verifyFileType(res)){
+  //         setSelectedImage(reader.result);
+
+  //       } else{
+
+  //         toast.error('File type must me image');
+  //         return;
+  //       }
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  const deleteProfileImage = ()=>{
+
+    setSelectedImage(`${appUrl}/images/user.png`)
+  }
 
   return (
 
@@ -80,8 +124,12 @@ const VendorUpdate = () => {
     
     <div className="flex gap-[20px]">
 
-      <DashboardSidebar active={5} />
-      <div className="py-20 px-[20px] bg-white flex-1">
+      <div className="hidden md:block"><DashboardSidebar active={5} /></div>
+
+      <div className="flex-1">
+        <DashboardHeader active={5} />
+        
+      <div className="py-20 px-[20px] bg-white">
         <div className="space-y-12">
           <div className="border-b border-gray-900/10">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -90,13 +138,9 @@ const VendorUpdate = () => {
 
             <div className="relative w-fit">
 
-              <input onChange={handleFileChange} type="file" id="profile-image" className="hidden" />
+              <input onChange={(e)=>handleFileChange(e,setSelectedImage)} type="file" id="profile-image" className="hidden" />
               <img src={selectedImage} className="w-[100px] h-[100px] object-cover rounded-full" />
 
-              <label htmlFor="profile-image" className="grid place-items-center bottom-[7px] right-[20px] z-[2]
-               bg-main text-white cursor-pointer rounded-[6px] w-[80px] h-[30px] mx-auto shadow-lg">
-                Edit
-                </label>
             </div>
 
             <p className="mt-1 text-sm leading-6 text-gray-600">
@@ -236,6 +280,8 @@ const VendorUpdate = () => {
             Save
           </button>
         </div>
+      </div>
+
       </div>
     </div>
 

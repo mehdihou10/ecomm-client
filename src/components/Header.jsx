@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaChevronDown, FaChevronUp, FaRegHeart, FaUser } from "react-icons/fa";
 import { FaUserPlus } from "react-icons/fa6";
@@ -7,12 +7,13 @@ import { HiBars3 } from "react-icons/hi2";
 import { MdClose } from "react-icons/md";
 import { LuShoppingCart, LuLogOut } from "react-icons/lu";
 import { AiFillHome } from "react-icons/ai";
+import {useCookies} from 'react-cookie';
 import { useSelector, useDispatch } from "react-redux";
 import { isSigned } from "../store/slices/sign.slice";
 import axios from "axios";
 import { url } from "../api/api.url";
 import Swal from "sweetalert2";
-import {jwtDecode} from 'jwt-decode';
+
 
 //local components
 const Search = () => {
@@ -59,6 +60,8 @@ const Profile = () => {
 
   const [userData, setUserData] = useState({});
   const [showOptions, setShowOptions] = useState(false);
+  const [cookies,setCookie,removeCookie] = useCookies(['user']);
+
 
   document.addEventListener("click", (e) => {
     if (e.target.dataset.info !== "profile") {
@@ -68,8 +71,19 @@ const Profile = () => {
 
   useEffect(() => {
 
-    const data = jwtDecode(window.localStorage.getItem('user'));
-    setUserData(data);
+    axios.post(`${url}/api/decode`,null,{
+      headers: {
+        Authorization: `Bearer ${cookies.user}`
+      }
+    }).then((res)=>{
+
+      const data = res.data;
+
+      if(data.status === "success"){
+        setUserData(data.user);
+      }
+    })
+
 
   }, []);
 
@@ -80,7 +94,7 @@ const Profile = () => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        window.localStorage.removeItem('user');
+        removeCookie('user')
         dispatch(isSigned());
       }
     });
@@ -147,6 +161,7 @@ const ToggleSidebar = () => {
   const dispatch = useDispatch();
 
   const isSign = useSelector((state) => state.isSigned);
+  const [cookies,setCookie,removeCookie] = useCookies(['user']);
 
   const [toggle, setToggle] = useState(false);
   const [userData, setUserData] = useState({});
@@ -155,9 +170,19 @@ const ToggleSidebar = () => {
   useEffect(() => {
     if (isSign) {
       
-      const data = jwtDecode(window.localStorage.getItem('user'));
+      axios.post(`${url}/api/decode`,null,{
+        headers: {
+          Authorization: `Bearer ${cookies.user}`
+        }
+      }).then((res)=>{
 
-      setUserData(data);
+        const data = res.data;
+
+        if(data.status === "success"){
+          setUserData(data.user);
+        }
+      })
+
     }
 
     axios.get(`${url}/api/categories`).then((res) => {
@@ -178,7 +203,7 @@ const ToggleSidebar = () => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        window.localStorage.removeItem('user')
+        removeCookie('user')
         dispatch(isSigned());
       }
     });
@@ -276,6 +301,7 @@ const ToggleSidebar = () => {
 //main component
 const Header = () => {
   const isSign = useSelector((state) => state.isSigned);
+
 
   return (
     <header className="bg-white">

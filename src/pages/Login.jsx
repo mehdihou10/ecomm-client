@@ -37,10 +37,23 @@ const Login = () => {
       }
     } else if (json.status === "success") {
 
-      window.localStorage.setItem('user',json.token)
+      const expirationDate = new Date();
+    expirationDate.setMonth(expirationDate.getMonth() + 1);
+    setCookie("user", json.token,{expires: expirationDate});
+
       dispatch(isSigned())
 
-      const user = jwtDecode(json.token);
+      axios.post(`${url}/api/decode`,null,{
+        headers: {
+          Authorization: `Bearer ${json.token}`
+        }
+      }).then((res)=>{
+
+        const data = res.data;
+
+        if(data.status === "success"){
+
+          const user = data.user;
 
           if(json.type === "client"){
 
@@ -50,6 +63,12 @@ const Login = () => {
             navigate(`/vendor_dashboard/${user.first_name}_${user.last_name}`)
            
           }
+
+        }
+
+      })
+
+          
         }
       
   };

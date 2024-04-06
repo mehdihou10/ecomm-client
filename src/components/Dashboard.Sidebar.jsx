@@ -1,43 +1,54 @@
-import { useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import { useEffect,useState } from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import { AiFillHome } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { BiStore } from "react-icons/bi";
 import { LiaTableSolid } from "react-icons/lia";
 import { TbCalendarStats } from "react-icons/tb";
 import { LuLogOut } from "react-icons/lu";
-import {jwtDecode} from 'jwt-decode';
 import {useSelector,useDispatch} from 'react-redux';
 import {isSigned} from '../store/slices/sign.slice';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import axios from 'axios';
+import {url} from '../api/api.url';
+import {useCookies} from 'react-cookie';
 
 
-const DashboardSidebar = ({active}) => {
-  
-  let data;
-  const isSign = useSelector(state=>state.isSigned);
-
-  if(!isSign){
-    window.location.href = "/"
-
-  } else{
-
-    data = jwtDecode(window.localStorage.getItem('user'));
-  }
+const DashboardSidebar = ({active,header}) => {
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  // useEffect(()=>{
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
-  //   if(!isSign){
-  //     window.location.href = "/"
-  //   }
-
-  // },[])
   
+  const isSign = useSelector(state=>state.isSigned);
+
+  const [data,setData] = useState({});
+
+  useEffect(()=>{
+
+    if(isSign){
+
+      axios.post(`${url}/api/decode`,null,{
+        headers: {
+          Authorization: `Bearer ${cookies.user}`
+        }
+      }).then((res)=>{
+
+        const userData = res.data;
+
+        if(userData.status === "success"){
+
+          setData(userData.user)
+        }
+      })
+
+    } 
+
+
+  },[])
 
 
   const logout = ()=>{
@@ -50,17 +61,20 @@ const DashboardSidebar = ({active}) => {
 
       if(res.isConfirmed){
 
-        window.localStorage.removeItem('user');
+        removeCookie('user')
         dispatch(isSigned());
+
+        navigate('/')
       }
     })
   }
 
+
   return (
-    <>
-    {isSign &&
-      <div className='w-[200px] max-w-full p-[20px] h-[100vh] max-h-full'>
-      <a href="">Logo</a>
+    
+    
+    <div className={`w-[250px] max-w-full ${!header ? 'p-[20px]' : ''} h-[100vh] max-h-full sticky top-0`}>
+      <a className='hidden md:block' href="">Logo</a>
 
       <ul className='flex flex-col  gap-[20px] mt-[40px]'>
         <li><Link to={`/vendor_dashboard/${data.first_name}_${data.last_name}`} className={`sidebar-item ${active === 1 ? 'active' :''} hover:active`}><div className="icon"><AiFillHome /></div>Dashboard</Link></li>
@@ -73,9 +87,9 @@ const DashboardSidebar = ({active}) => {
 
       <button onClick={logout} className='flex items-center gap-[10px] px-[15px] py-[10px]
        text-[#344767] mt-[35px] font-semibold border-t border-red-[#ccc]'><LuLogOut />Logout</button>
-    </div>}
+    </div>
 
-    </>
+    
   )
 }
 

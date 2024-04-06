@@ -11,6 +11,8 @@ import InfoPassword from "../components/Info.Password";
 import { useCookies } from "react-cookie";
 import {isSigned} from '../store/slices/sign.slice';
 import {useDispatch} from 'react-redux';
+import {appUrl} from '../api/app.url';
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ const Signup = () => {
     last_name: "",
     email: "",
     password: "",
-    image: "images/user.png",
+    image: `${appUrl}/images/user.png`,
     phone_number: null,
     email_verification: Date.now(),
   });
@@ -120,7 +122,9 @@ const Signup = () => {
         
         if(type === "users"){
 
-          window.localStorage.setItem("user",data.token);
+          const expirationDate = new Date();
+         expirationDate.setMonth(expirationDate.getMonth() + 1);
+         setCookie("user", data.token,{expires: expirationDate});
 
           dispatch(isSigned())
           navigate("/");
