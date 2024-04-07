@@ -9,6 +9,7 @@ export {default as VendorDashboard} from './VendorDashboard';
 export {default as VendorProfile} from './Vendor.Profile';
 export {default as VendorOrders} from './Vendor.Orders';
 export {default as VendorProducts} from './Vendor.Products';
+export {default as VendorAddProduct} from './Vendor.Add.Product';
 export {default as VendorHistory} from './Vendor.History';
 export {default as AdminDashboard} from './AdminDashboard';
 export {default as Signup} from './Signup';

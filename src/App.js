@@ -8,6 +8,7 @@ import {
   UserDashboard,
   VendorDashboard,
   VendorProducts,
+  VendorAddProduct,
   VendorOrders,
   VendorHistory,
   VendorProfile,
@@ -55,6 +56,12 @@ function App() {
           path="vendor_dashboard/:username/products"
           element={<VendorProducts />}
         />
+
+         <Route
+          path="vendor_dashboard/:username/products/add"
+          element={<VendorAddProduct />}
+        />
+
         <Route
           path="vendor_dashboard/:username/orders"
           element={<VendorOrders />}

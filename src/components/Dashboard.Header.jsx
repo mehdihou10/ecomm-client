@@ -9,6 +9,7 @@ import axios from 'axios';
 import {url} from '../api/api.url';
 
 
+
 const DashboardHeader = ({active}) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -39,7 +40,9 @@ const DashboardHeader = ({active}) => {
       })
 
     }
-  },[])
+  },[isSign])
+
+  // const data = jwtDecode(cookies.user);
 
 
     const [toggle,setToggle] = useState(false);

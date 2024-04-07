@@ -48,7 +48,8 @@ const DashboardSidebar = ({active,header}) => {
     } 
 
 
-  },[])
+  },[isSign])
+
 
 
   const logout = ()=>{
