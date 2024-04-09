@@ -35,7 +35,7 @@ const VendorProfile = () => {
 
       <div className="flex-1">
         <DashboardHeader active={5} />
-      <div className="py-20 bg-white px-[20px]">
+      <div className="py-20 h-full bg-white px-[20px]">
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             Profile
