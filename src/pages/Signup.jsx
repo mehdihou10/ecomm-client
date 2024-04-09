@@ -124,7 +124,7 @@ const Signup = () => {
 
         const expirationDate = new Date();
          expirationDate.setMonth(expirationDate.getMonth() + 1);
-         setCookie("user", data.token,{expires: expirationDate});
+         setCookie("user", data.token,{expires: expirationDate,path: "/"});
 
           dispatch(isSigned())
           navigate("/");

@@ -14,6 +14,7 @@ import {url} from '../api/api.url';
 import {useCookies} from 'react-cookie';
 
 
+
 const DashboardSidebar = ({active,header}) => {
 
   const navigate = useNavigate();
@@ -52,23 +53,20 @@ const DashboardSidebar = ({active,header}) => {
 
 
 
-  const logout = ()=>{
-
+  const logout = () => {
     Swal.fire({
       icon: "warning",
       title: "Are You Sure?",
-      showCancelButton: true
-    }).then((res)=>{
-
-      if(res.isConfirmed){
-
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
         removeCookie('user')
         dispatch(isSigned());
 
         navigate('/')
       }
     })
-  }
+  };
 
 
   return (

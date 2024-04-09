@@ -72,7 +72,7 @@ const VendorUpdate = () => {
     } else if (json.status === "success") {
       const expirationDate = new Date();
     expirationDate.setMonth(expirationDate.getMonth() + 1);
-    setCookie("user", json.token,{expires: expirationDate});
+    setCookie("user", json.token,{expires: expirationDate,path: "/"});
 
       navigate(
         `/vendor_dashboard/${userData.first_name}_${userData.last_name}/profile`

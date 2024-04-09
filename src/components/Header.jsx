@@ -58,6 +58,8 @@ const Sign = () => (
 const Profile = () => {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({});
   const [showOptions, setShowOptions] = useState(false);
   const [cookies,setCookie,removeCookie] = useCookies(['user']);
@@ -80,7 +82,17 @@ const Profile = () => {
       const data = res.data;
 
       if(data.status === "success"){
-        setUserData(data.user);
+
+        if(data.user.type === "vendor"){
+
+          navigate(`/vendor_dashboard/${data.user.first_name}_${data.user.last_name}`);
+
+        } else{
+          setUserData(data.user);
+
+        }
+
+        // setUserData(data.user);
       }
     })
 

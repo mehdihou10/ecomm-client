@@ -24,7 +24,7 @@ export const verifyFileSize = (file)=>{
     return true;
 }
 
-export const handleFileChange = (event,fun) => {
+export const handleFileChange = (event,fun,data) => {
     const file = event.target.files[0];
 
     if (file) {
@@ -41,7 +41,7 @@ export const handleFileChange = (event,fun) => {
 
 
         if(verifyFileType(res)){
-          fun(reader.result);
+          fun({...data,image: reader.result});
 
         } else{
 
