@@ -9,6 +9,7 @@ import {
   VendorDashboard,
   VendorProducts,
   VendorAddProduct,
+  VendorEditProduct,
   VendorOrders,
   VendorHistory,
   VendorProfile,
@@ -60,6 +61,11 @@ function App() {
          <Route
           path="vendor_dashboard/:username/products/add"
           element={<VendorAddProduct />}
+        />
+
+         <Route
+          path="vendor_dashboard/:username/products/:productId/edit"
+          element={<VendorEditProduct />}
         />
 
         <Route

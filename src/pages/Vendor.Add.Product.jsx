@@ -15,6 +15,7 @@ const VendorAddProduct = () => {
 
   const navigate = useNavigate();
 
+
   const [cookies,setCookie,removeCookie] = useCookies(['user']);
 
   const [userData,setUserData] = useState({});
@@ -94,7 +95,7 @@ const VendorAddProduct = () => {
   }
 
 
-  return (
+return (
 
 <>
 <ToastContainer theme='colored' position='top-left' />
@@ -227,9 +228,9 @@ const VendorAddProduct = () => {
                 onChange={(e)=>{
                   setProductData({...productData,description: e.target.value});
 
-                  if(e.target.value.length >= 200){
+                  if(e.target.value.length >= 100){
 
-                    e.target.value = e.target.value.slice(0,199)
+                    e.target.value = e.target.value.slice(0,99)
                   }
                 }}
                   id="description"
@@ -238,7 +239,7 @@ const VendorAddProduct = () => {
                   className="block resize-none h-[150px] px-[10px] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
 
-                <span className={`absolute ${productData.description.length < 100  ? 'text-red-500' : 'text-green-600'} right-[10px] bottom-[10px] text-[10px]`}>{productData.description.length}/200</span>
+                <span className={`absolute ${productData.description.length < 50  ? 'text-red-500' : 'text-green-600'} right-[10px] bottom-[10px] text-[10px]`}>{productData.description.length}/100</span>
               </div>
             </div>
 

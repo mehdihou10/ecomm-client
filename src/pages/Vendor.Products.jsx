@@ -9,6 +9,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
+import Swal from 'sweetalert2';
+
 
 const VendorProducts = () => {
   const [vednorData, setVendorData] = useState({});
@@ -54,58 +56,40 @@ const VendorProducts = () => {
     }
   };
 
-  // const products = [
-  //   {
-  //     id: 1,
-  //     name: "Basic Tee",
-  //     href: "#",
-  //     imageSrc:
-  //       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-  //     imageAlt: "Front of men's Basic Tee in black.",
-  //     price: "$35",
-  //     color: "Black",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Basic Tee",
-  //     href: "#",
-  //     imageSrc:
-  //       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-  //     imageAlt: "Front of men's Basic Tee in black.",
-  //     price: "$35",
-  //     color: "Black",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Basic Tee",
-  //     href: "#",
-  //     imageSrc:
-  //       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-  //     imageAlt: "Front of men's Basic Tee in black.",
-  //     price: "$35",
-  //     color: "Black",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Basic Tee",
-  //     href: "#",
-  //     imageSrc:
-  //       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-  //     imageAlt: "Front of men's Basic Tee in black.",
-  //     price: "$35",
-  //     color: "Black",
-  //   },
-  // ];
-  // const [productDetails, setProductDetails] = useState({
-  //   name: "",
-  //   description: "",
-  //   category: "",
-  //   image: "",
-  //   price: "",
-  //   brand: "",
-  // });
-  // console.log(products)
+ 
+
+  const deleteProduct = (productId)=>{
+
+    Swal.fire({
+      icon: "warning",
+      title: "Are You Sure?",
+      showCancelButton: true
+    }).then((res)=>{
+
+      if(res.isConfirmed){
+
+        axios.delete(`${url}/api/products/${productId}`)
+        .then((response)=>{
+
+          const data = response.data;
+
+          if(data.status === "success"){
+
+            fetchData(vednorData.id);
+
+          } else{
+            toast.error('Something wrong happened')
+          }
+        })
+      }
+    })
+    
+  }
+
+
   return (
+    <>
+    <ToastContainer theme="colored" position="top-left" />
     <div className="sm:flex">
       <div className="hidden md:block">
         <DashboardSidebar active={2} />
@@ -154,11 +138,12 @@ const VendorProducts = () => {
                   </th>
                 </tr>
               </thead>
+              <tbody className="">
               {products.map((product) => (
-                <tbody className="">
+                
                   <tr
                     className="border-b-2 h-16 border-gray-200"
-                    key={product._id}
+                    key={product.id}
                   >
                     <td className="p-3 text-sm text-gray-700">
                       {" "}
@@ -171,75 +156,32 @@ const VendorProducts = () => {
                       {product.price}
                     </td>
                     <td className=" p-3 text-sm text-gray-700">
-                      {product.category_id}
+                      {product.cat_name}
                     </td>
                     <td className=" p-3 text-sm text-gray-700">
                       <button>
-                        <RiDeleteBin6Line className="text-red-500 size-5"></RiDeleteBin6Line>
+                        <RiDeleteBin6Line onClick={()=>deleteProduct(product.id)} className="text-red-500 size-5"></RiDeleteBin6Line>
                       </button>
                       <button>
+                      <Link to={`/vendor_dashboard/${vednorData.first_name}_${vednorData.last_name}/products/${product.id}/edit`}>
                         <AiOutlineEdit className="text-main size-5 ml-2"></AiOutlineEdit>
+                      </Link>
                       </button>
                     </td>
                   </tr>
-                </tbody>
+                
               ))}
+               </tbody>
             </table>
             </div>
           </div>
         )}
+       
       </div>
     </div>
+    </>
   );
 };
 
 export default VendorProducts;
 
-{
-  /* <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-              <div className=" card mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-              {products.map((product) => (
-  <div key={product.id} className="group relative">
-    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-      <img
-        onClick={() => console.log("clicked")}
-        src={product.image}
-        alt="image"
-        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-      />
-    </div>
-    <div className="mt-4 flex justify-between">
-      <div>
-        <h3 className="text-sm text-gray-700">
-          <a href={product.href}>
-            <span
-              aria-hidden="true"
-              className="absolute inset-0"
-            />
-            {product.name}
-          </a>
-        </h3>
-        <p className="mt-1 text-sm text-gray-500">
-          {product.brand}
-        </p>
-      </div>
-      <div className="flex flex-col ">
-        <p className="text-sm font-medium text-gray-900">
-          {product.price} $
-        </p>
-        <div className="flex gap-1">
-          <button className="text-main">Update</button>
-          <button
-            onClick={ handleDeleteClick}
-            className="text-red-500 block z-[10]"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-))}
-              </div>
-</div> */
-}
