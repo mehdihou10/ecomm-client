@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import DashboardSidebar from "../components/Dashboard.Sidebar";
 import DashboardHeader from "../components/Dashboard.Header";
-import { PaperClipIcon } from '@heroicons/react/20/solid'
+import moment from 'moment';
+
+
+
 const VendorProductDeatils = () => {
   const { productId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -30,6 +33,7 @@ const VendorProductDeatils = () => {
       .then((res) => {
         const data = res.data;
 
+
         if (data.status === "success") {
           const product = data.product;
 
@@ -41,6 +45,8 @@ const VendorProductDeatils = () => {
             category_id: product.category_id,
             vendor_id: product.vendor_id,
             image: product.image,
+            views: product.views,
+            date: product.date
           });
         } else {
           toast.error("Something wrong happend");
@@ -62,6 +68,8 @@ const VendorProductDeatils = () => {
       });
   }, [productData.category_id]);
 
+  console.log(productData.date)
+
   return (
     <>
     <ToastContainer theme="colored" position="top-left" />
@@ -76,6 +84,7 @@ const VendorProductDeatils = () => {
           <div className="sm:flex-row gap-5 flex-col flex items-center justify-between">
             <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
               Product Deatils - {productData.name}
+              <span className="block text-gray-500 text-[12px] font-semibold">{moment(productData.date).fromNow()}</span>
             </h1>
           </div>
         </div>
@@ -97,7 +106,11 @@ const VendorProductDeatils = () => {
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">Price</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{productData.price} Dz</dd>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{productData.price} DZD</dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Views</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{productData.views}</dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">Description</dt>
