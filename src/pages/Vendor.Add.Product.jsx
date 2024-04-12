@@ -27,7 +27,8 @@ const VendorAddProduct = () => {
     description: "",
     category_id: "",
     vendor_id: "",
-    image: ""
+    image: "",
+    date: Date.now()
   })
 
   useEffect(()=>{
