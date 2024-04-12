@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
 import Swal from 'sweetalert2';
+import { BsFillInfoCircleFill } from "react-icons/bs";
 
 
 const VendorProducts = () => {
@@ -159,14 +160,20 @@ const VendorProducts = () => {
                       {product.cat_name}
                     </td>
                     <td className=" p-3 text-sm text-gray-700">
-                      <button>
-                        <RiDeleteBin6Line onClick={()=>deleteProduct(product.id)} className="text-red-500 size-5"></RiDeleteBin6Line>
+                    <button>
+                            <Link to={`/vendor_dashboard/${vednorData.first_name}_${vednorData.last_name}/products/${product.id}`}>
+                              <BsFillInfoCircleFill className="size-5"></BsFillInfoCircleFill>
+                            </Link>
                       </button>
                       <button>
                       <Link to={`/vendor_dashboard/${vednorData.first_name}_${vednorData.last_name}/products/${product.id}/edit`}>
                         <AiOutlineEdit className="text-main size-5 ml-2"></AiOutlineEdit>
                       </Link>
                       </button>
+                      <button>
+                        <RiDeleteBin6Line onClick={()=>deleteProduct(product.id)} className="text-red-500 size-5 ml-2"></RiDeleteBin6Line>
+                      </button>
+                      
                     </td>
                   </tr>
                 

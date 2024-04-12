@@ -26,7 +26,7 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { isSigned } from "./store/slices/sign.slice";
 import { useEffect } from "react";
-
+import VendorProductDeatils from "./pages/Vendor.Deatils.Product";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,14 +58,18 @@ function App() {
           element={<VendorProducts />}
         />
 
-         <Route
+        <Route
           path="vendor_dashboard/:username/products/add"
           element={<VendorAddProduct />}
         />
 
-         <Route
+        <Route
           path="vendor_dashboard/:username/products/:productId/edit"
           element={<VendorEditProduct />}
+        />
+        <Route
+          path="vendor_dashboard/:username/products/:productId"
+          element={<VendorProductDeatils></VendorProductDeatils>}
         />
 
         <Route
