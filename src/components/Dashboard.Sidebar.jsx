@@ -46,7 +46,10 @@ const DashboardSidebar = ({active,header}) => {
         }
       })
 
-    } 
+    } else{
+
+      navigate('/')
+    }
 
 
   },[isSign])
@@ -60,7 +63,8 @@ const DashboardSidebar = ({active,header}) => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        removeCookie('user')
+        removeCookie('user',{path: "/"});
+
         dispatch(isSigned());
 
         navigate('/')

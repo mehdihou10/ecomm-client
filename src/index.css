@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+    scroll-behavior: smooth;
+}
 body{
     font-family: 'Poppins', sans-serif;
 }
@@ -41,6 +44,66 @@ body{
         background: linear-gradient(90deg, rgba(13,83,187,1) 0%, rgba(15,10,153,0.9836309523809523) 100%);
         box-shadow: 1px 3px 4px 0 #ccc;
 
+    }
+
+
+    .main-title{
+        @apply text-white relative mb-[30px] after:content-[''] after:absolute
+         after:w-[30px] after:h-[1px] after:bg-white after:z-[2]
+         after:left-1/2 after:-translate-x-1/2 after:-bottom-[10px]
+    }
+
+    .hero-image{
+        @apply duration-500 opacity-0 absolute w-full h-full top-0 left-0 object-cover
+    }
+
+    .active-image{
+       @apply opacity-100
+    }
+
+    .hero-text{
+        @apply duration-700 active-text uppercase text-white absolute z-[3] left-1/2 font-rokkit top-[1000px] -translate-x-1/2
+    }
+
+    .chevron-right{
+        @apply absolute top-1/2 -translate-y-1/2
+        right-[20px] bg-[#ffffff33] cursor-pointer text-[#ffffff80]
+        w-[60px] h-[60px] rounded-full z-[10] grid place-items-center text-[22px]
+    }
+    .chevron-left{
+        @apply absolute top-1/2 -translate-y-1/2
+        left-[20px] bg-[#ffffff33] cursor-pointer text-[#ffffff80]
+        w-[60px] h-[60px] rounded-full z-[10] grid place-items-center text-[22px]
+    }
+
+    .active-text{
+        @apply top-1/2 -translate-y-1/2
 
     }
+    
+    .sub-title{
+        @apply w-fit text-gray-500 relative mb-[30px] mx-[auto] uppercase font-rokkit
+         after:content-[''] after:absolute
+        after:w-[30px] after:h-[1px] after:bg-gray-500 after:z-[2]
+        after:left-1/2 after:-translate-x-1/2 after:-bottom-[10px]
+    }
+
+    .hero-dot{
+        @apply block duration-300 w-[15px] h-[15px] rounded-full
+        cursor-pointer bg-gray-400
+    }
+
+    .active-dot{
+        @apply bg-main
+    }
+
+    .overlay-btn{
+        @apply relative mt-[20px] duration-300 border-2 border-white w-[200px] h-[40px]
+        mx-auto grid place-items-center hover:text-black before:content-[""] before:absolute
+        before:w-0 hover:before:w-full before:h-full before:left-0 before:top-0 before:bg-white before:-z-[1] before:duration-300
+    }
+}
+
+.hero{
+    height: calc(100vh - 40px)
 }

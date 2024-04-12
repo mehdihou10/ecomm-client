@@ -92,7 +92,6 @@ const Profile = () => {
 
         }
 
-        // setUserData(data.user);
       }
     })
 
@@ -106,7 +105,7 @@ const Profile = () => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        removeCookie('user')
+        removeCookie('user',{path: "/"})
         dispatch(isSigned());
       }
     });
@@ -215,7 +214,7 @@ const ToggleSidebar = () => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        removeCookie('user')
+        removeCookie('user',{path: "/"})
         dispatch(isSigned());
       }
     });

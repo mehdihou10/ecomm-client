@@ -5,9 +5,6 @@ import { useState, useEffect } from "react";
 import { url } from "../api/api.url";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
-import { MdClose,MdModeEditOutline } from "react-icons/md";
-import {appUrl} from '../api/app.url';
-import { handleFileChange } from "../functions/image.upload";
 import {useCookies} from 'react-cookie';
 
 
@@ -83,39 +80,6 @@ const VendorUpdate = () => {
   };
   
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-
-  //   if (file) {
-
-  //   if (!verifyFileSize(file)) {
-  //     toast.error('File size must be less than 10MB');
-  //     return;
-  //   }
-
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-
-  //       const res = reader.result;
-
-
-  //       if(verifyFileType(res)){
-  //         setSelectedImage(reader.result);
-
-  //       } else{
-
-  //         toast.error('File type must me image');
-  //         return;
-  //       }
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
-  const deleteProfileImage = ()=>{
-
-    setSelectedImage(`${appUrl}/images/user.png`)
-  }
 
   return (
 
@@ -138,7 +102,6 @@ const VendorUpdate = () => {
 
             <div className="relative w-fit">
 
-              <input onChange={(e)=>handleFileChange(e,setSelectedImage)} type="file" id="profile-image" className="hidden" />
               <img src={selectedImage} className="w-[100px] h-[100px] object-cover rounded-full" />
 
             </div>
