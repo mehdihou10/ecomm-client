@@ -11,7 +11,7 @@ const VendorProfile = () => {
 
       <div className="flex-1">
         <DashboardHeader active={5} />
-      <Profile />
+      <Profile type="vendor" />
 
       </div>
     </div>
