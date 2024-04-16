@@ -25,6 +25,7 @@ const VendorEditProduct = () => {
       name: "",
       brand: "",
       price: "",
+      qte: "",
       description: "",
       category_id: "",
       vendor_id: "",
@@ -50,6 +51,7 @@ const VendorEditProduct = () => {
             name: product.name,
             brand: product.brand,
             price: product.price,
+            qte: product.qte,
             description: product.description,
             category_id: product.category_id,
             vendor_id: product.vendor_id,
@@ -192,6 +194,24 @@ const VendorEditProduct = () => {
                           id="price"
                           name="price"
                           type="number"
+                          required
+                          className="block px-[10px] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="brand" className="block text-sm font-medium leading-6 text-gray-900">
+                      Quantity in Stock
+                      </label>
+                      <div className="mt-2">
+                        <input
+                        defaultValue={productData.qte}
+                        onChange={(e)=>setProductData({...productData,qte: e.target.value})}
+                          id="qte"
+                          name="qte"
+                          type="number"
+                          min={1}
                           required
                           className="block px-[10px] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />

@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie";
 import {isSigned} from '../store/slices/sign.slice';
 import {useDispatch} from 'react-redux';
 import {appUrl} from '../api/app.url';
+import {cities} from '../data/cities';
 
 
 const Signup = () => {
@@ -31,6 +32,7 @@ const Signup = () => {
     password: "",
     image: `${appUrl}/images/user.png`,
     phone_number: null,
+    city: null,
     email_verification: Date.now(),
   });
 
@@ -86,6 +88,7 @@ const Signup = () => {
         apiAdd("vendors", {
           ...sendedData,
           phone_number: userData.phone_number,
+          city: userData.city
         });
       } else if (userType === "client") {
         apiAdd("users", sendedData);
@@ -248,6 +251,9 @@ const Signup = () => {
                 </div>
 
                 {localStorage.getItem("type") === "vendor" && (
+
+                  <>
+                  
                   <div>
                     <label
                       htmlFor="phone_number"
@@ -272,6 +278,37 @@ const Signup = () => {
                       />
                     </div>
                   </div>
+
+                  <div>
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      city
+                    </label>
+                    <div className="mt-2">
+                      <select
+                        onChange={(e) =>
+                          setUserData({
+                            ...userData,
+                            city: e.target.value,
+                          })
+                        }
+                        id="city"
+                        name="city"
+                        autoComplete="city"
+                        required
+                        className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main-600 sm:text-sm sm:leading-6"
+                      >
+                        <option selected disabled value="Select a city">Select a city</option>
+                        {
+                          cities.map(city=><option key={city} value={city}>{city}</option>)
+                        }
+                      </select>
+                    </div>
+                  </div>
+
+                  </>
                 )}
                 <div>
                   <div className="flex items-center justify-between">

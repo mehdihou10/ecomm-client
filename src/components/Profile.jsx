@@ -74,14 +74,31 @@ const Profile = ({type}) => {
                 {userData.password}
               </dd>
             </div> */}
-            {type === "vendor" && <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            {type === "vendor" &&
+            <>
+            
+             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">
                 Phone number
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 {userData.phone_number}
               </dd>
-            </div>}
+            </div>
+
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                city
+              </dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                {userData.city}
+              </dd>
+            </div>
+
+            </>
+            }
+
+
             <Link to={`/${type === "vendor" ? "vendor" : "user"}_dashboard/${userData.first_name}_${userData.last_name}/profile/update`}>
               <button
                 className="bg-main py-2 px-6 font-semibold text-white"

@@ -6,6 +6,7 @@ import { url } from "../api/api.url";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import {useCookies} from 'react-cookie';
+import {cities} from '../data/cities';
 
 
 const VendorUpdate = () => {
@@ -16,6 +17,7 @@ const VendorUpdate = () => {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [city, setCity] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
   const navigate = useNavigate();
@@ -34,11 +36,11 @@ const VendorUpdate = () => {
           setFirstName(data.user.first_name);
           setLastName(data.user.last_name);
           setPhoneNumber(data.user.phone_number);
+          setCity(data.user.city)
           setSelectedImage(data.user.image);
       }
     })
 
-       
           
         
   }, []);
@@ -54,6 +56,7 @@ const VendorUpdate = () => {
         last_name: lastName,
         email: userData.email,
         phone_number: phoneNumber,
+        city,
         image: selectedImage,
       }),
     });
@@ -79,7 +82,6 @@ const VendorUpdate = () => {
     }
   };
   
-
 
   return (
 
@@ -201,7 +203,7 @@ const VendorUpdate = () => {
                 </div>
               </div>
 
-              <div className="sm:col-span-2 sm:col-start-1">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="phone_number"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -220,9 +222,39 @@ const VendorUpdate = () => {
                   />
                 </div>
               </div>
+
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="phone_number"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  City
+                </label>
+                <div className="mt-2">
+                  <select
+                    name="city"
+                    id="city"
+                    onChange={(e) => setCity(e.target.value)}
+                    autoComplete="address-level2"
+                    className="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                  >
+                    <option selected disabled>Select a city</option>
+
+                    {
+                      cities.map(city=><option key={city} value={city}>{city}</option>)
+                    }
+
+                    </select>
+
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>
+
+
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <button
             onClick={() =>

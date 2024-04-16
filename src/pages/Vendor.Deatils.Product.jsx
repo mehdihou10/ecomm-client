@@ -18,6 +18,7 @@ const VendorProductDeatils = () => {
     name: "",
     brand: "",
     price: "",
+    qte: "",
     description: "",
     category_id: "",
     vendor_id: "",
@@ -41,11 +42,13 @@ const VendorProductDeatils = () => {
             name: product.name,
             brand: product.brand,
             price: product.price,
+            qte: product.qte,
             description: product.description,
             category_id: product.category_id,
             vendor_id: product.vendor_id,
             image: product.image,
             views: product.views,
+            orders: product.orders,
             date: product.date
           });
         } else {
@@ -68,7 +71,6 @@ const VendorProductDeatils = () => {
       });
   }, [productData.category_id]);
 
-  console.log(productData.date)
 
   return (
     <>
@@ -108,9 +110,19 @@ const VendorProductDeatils = () => {
             <dt className="text-sm font-medium leading-6 text-gray-900">Price</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{productData.price} DZD</dd>
           </div>
+
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Quantity in Stock</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{productData.qte}</dd>
+          </div>
+
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">Views</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{productData.views}</dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Orders</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{productData.orders}</dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">Description</dt>

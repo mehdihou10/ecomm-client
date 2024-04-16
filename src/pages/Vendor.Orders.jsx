@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DashboardSidebar from "../components/Dashboard.Sidebar";
 import DashboardHeader from "../components/Dashboard.Header";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { url } from "../api/api.url";
 import { ToastContainer, toast } from "react-toastify";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -9,26 +10,28 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 
 const VendorOrders = () => {
+
+  
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${url}/api/products/orders/show`);
-        const json = await response.json();
-        if (json.status === "fail") {
-          const errors = json.message;
-          for (const error of errors) {
-            toast.error(error.msg);
-          }
-        }
-        setOrders(json.data);
-      } catch (error) {
-        console.error("error:", error);
-      }
-    };
-
     fetchData();
-  }, [orders]);
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${url}/api/products/orders/show`);
+      const json = await response.json();
+      if (json.status === "fail") {
+        const errors = json.message;
+        for (const error of errors) {
+          toast.error(error.msg);
+        }
+      }
+      setOrders(json.data);
+    } catch (error) {
+      console.error("error:", error);
+    }
+  };
 
   const handelDelete = async (id, userId) => {
     Swal.fire({
@@ -52,8 +55,31 @@ const VendorOrders = () => {
     });
   };
 
+  const acceptOrder = (orderData)=>{
+
+    
+    axios.post(`${url}/api/products/orders/accept`,{
+      id: orderData.id,
+      user_id: orderData.user_id,
+      product_id: orderData.product_id,
+      qte: orderData.qte,
+      date: new Date()
+    }).then((res)=>{
+
+      if(res.data.status === "success"){
+        fetchData();
+        toast.success('Order completed!')
+      } else{
+        toast.error('Something wrong happened');
+      }
+    })
+  }
+
+  console.log(orders)
+
   return (
     <div className="sm:flex">
+      <ToastContainer theme="colored" position="top-left" />
       <div className="hidden md:block">
         <DashboardSidebar active={3} />
       </div>
@@ -88,6 +114,12 @@ const VendorOrders = () => {
                       Username
                     </th>
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                      City
+                    </th>
+                    <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                      Phone Number
+                    </th>
+                    <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                       Qte
                     </th>
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
@@ -115,11 +147,19 @@ const VendorOrders = () => {
                         {order.first_name} {order.last_name}
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
+                        {order.user_city}
+                      </td>
+                      <td className=" p-3 text-sm text-gray-700">
+                        {order.user_phone_number}
+                      </td>
+                      <td className=" p-3 text-sm text-gray-700">
                         {order.qte}
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         <button>
-                          <AiOutlineCheckCircle className="size-8 text-green-500"></AiOutlineCheckCircle>
+                          <AiOutlineCheckCircle
+                          onClick={()=>acceptOrder(order)}
+                           className="size-8 text-green-500"></AiOutlineCheckCircle>
                         </button>
                         <button>
                           <AiOutlineCloseCircle
