@@ -10,28 +10,26 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 
 const VendorOrders = () => {
-
-  
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${url}/api/products/orders/show`);
-      const json = await response.json();
-      if (json.status === "fail") {
-        const errors = json.message;
-        for (const error of errors) {
-          toast.error(error.msg);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${url}/api/products/orders/show`);
+        const json = await response.json();
+        if (json.status === "fail") {
+          const errors = json.message;
+          for (const error of errors) {
+            toast.error(error.msg);
+          }
         }
+        setOrders(json.data);
+      } catch (error) {
+        console.error("error:", error);
       }
-      setOrders(json.data);
-    } catch (error) {
-      console.error("error:", error);
-    }
-  };
+    };
+    fetchData();
+  }, [orders]);
+
 
   const handelDelete = async (id, userId) => {
     Swal.fire({
@@ -47,7 +45,7 @@ const VendorOrders = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ id: userId }),
-          })
+          });
         } catch (error) {
           console.error(error);
         }
@@ -55,27 +53,26 @@ const VendorOrders = () => {
     });
   };
 
-  const acceptOrder = (orderData)=>{
+  const acceptOrder = (orderData) => {
+    axios
+      .post(`${url}/api/products/orders/accept`, {
+        id: orderData.id,
+        user_id: orderData.user_id,
+        product_id: orderData.product_id,
+        qte: orderData.qte,
+        date: new Date(),
+      })
+      .then((res) => {
+        if (res.data.status === "success") {
+          // fetchData();
+          toast.success("Order completed!");
+        } else {
+          toast.error("Something wrong happened");
+        }
+      });
+  };
 
-    
-    axios.post(`${url}/api/products/orders/accept`,{
-      id: orderData.id,
-      user_id: orderData.user_id,
-      product_id: orderData.product_id,
-      qte: orderData.qte,
-      date: new Date()
-    }).then((res)=>{
-
-      if(res.data.status === "success"){
-        fetchData();
-        toast.success('Order completed!')
-      } else{
-        toast.error('Something wrong happened');
-      }
-    })
-  }
-
-  console.log(orders)
+  console.log(orders);
 
   return (
     <div className="sm:flex">
@@ -95,9 +92,7 @@ const VendorOrders = () => {
         </div>
         <hr />
         {orders.length === 0 ? (
-          <h1 className="p-4">
-            No Orders Yet...
-          </h1>
+          <h1 className="p-4">No Orders Yet...</h1>
         ) : (
           <div className="">
             <div className="bg-white rounded-lg  overflow-y-auto shadow mt-4">
@@ -158,8 +153,9 @@ const VendorOrders = () => {
                       <td className=" p-3 text-sm text-gray-700">
                         <button>
                           <AiOutlineCheckCircle
-                          onClick={()=>acceptOrder(order)}
-                           className="size-8 text-green-500"></AiOutlineCheckCircle>
+                            onClick={() => acceptOrder(order)}
+                            className="size-8 text-green-500"
+                          ></AiOutlineCheckCircle>
                         </button>
                         <button>
                           <AiOutlineCloseCircle
