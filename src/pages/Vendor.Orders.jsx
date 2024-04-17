@@ -16,6 +16,7 @@ const VendorOrders = () => {
       try {
         const response = await fetch(`${url}/api/products/orders/show`);
         const json = await response.json();
+        console.log(json);
         if (json.status === "fail") {
           const errors = json.message;
           for (const error of errors) {
