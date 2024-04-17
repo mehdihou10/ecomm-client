@@ -12,25 +12,25 @@ import Swal from "sweetalert2";
 const VendorOrders = () => {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${url}/api/products/orders/show`);
-        const json = await response.json();
-        console.log(json);
-        if (json.status === "fail") {
-          const errors = json.message;
-          for (const error of errors) {
-            toast.error(error.msg);
-          }
-        }
-        setOrders(json.data);
-      } catch (error) {
-        console.error("error:", error);
-      }
-    };
     fetchData();
-  }, [orders]);
-
+  }, []);
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${url}/api/products/orders/show`);
+      const json = await response.json();
+      console.log(json);
+      if (json.status === "fail") {
+        const errors = json.message;
+        for (const error of errors) {
+          toast.error(error.msg);
+        }
+      }
+      setOrders(json.data);
+    } catch (error) {
+      console.error("error:", error);
+    }
+  };
 
   const handelDelete = async (id, userId) => {
     Swal.fire({
@@ -65,15 +65,13 @@ const VendorOrders = () => {
       })
       .then((res) => {
         if (res.data.status === "success") {
-          // fetchData();
+          fetchData();
           toast.success("Order completed!");
         } else {
           toast.error("Something wrong happened");
         }
       });
   };
-
-  console.log(orders);
 
   return (
     <div className="sm:flex">
