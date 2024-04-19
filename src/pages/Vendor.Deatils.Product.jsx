@@ -24,6 +24,8 @@ const VendorProductDeatils = () => {
     vendor_id: "",
     image: "",
   });
+
+  const [comments,setComments] = useState([]);
   useEffect(() => {
     axios
       .get(`${url}/api/products/product/${productId}`, {
@@ -70,6 +72,22 @@ const VendorProductDeatils = () => {
         }
       });
   }, [productData.category_id]);
+
+  useEffect(()=>{
+
+    axios.get(`${url}/api/products/${productId}/comments`)
+    .then((res)=>{
+      const data = res.data;
+
+      if(data.status === "success"){
+        setComments(data.comments);
+      } else{
+
+        toast.error('Something went Wrong');
+      }
+    })
+
+  },[])
 
 
   return (
@@ -136,6 +154,20 @@ const VendorProductDeatils = () => {
               <img src={productData.image} alt="" className="sm:w-96 sm:h-96 w-auto object-cover" />
             </dd>
           </div>
+
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Comments</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {
+                comments.map((comment,index)=>(
+
+                  <div key={index}>{comment.value}</div>
+                ))
+              }
+            </dd>
+          </div>
+
+
         </dl>
       </div>
     </div>

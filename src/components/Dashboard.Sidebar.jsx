@@ -6,6 +6,7 @@ import { BiStore } from "react-icons/bi";
 import { LiaTableSolid } from "react-icons/lia";
 import { TbCalendarStats } from "react-icons/tb";
 import { LuLogOut } from "react-icons/lu";
+import { FaGear } from "react-icons/fa6";
 import {useSelector,useDispatch} from 'react-redux';
 import {isSigned} from '../store/slices/sign.slice';
 import Swal from 'sweetalert2'
@@ -85,6 +86,8 @@ const DashboardSidebar = ({active,header}) => {
         <li><Link to={`/vendor_dashboard/${data.first_name}_${data.last_name}/orders`} className={`sidebar-item ${active === 3 ? 'active' :''} hover:active`}><div className="icon"><LiaTableSolid /></div>Orders</Link></li>
         <li><Link to={`/vendor_dashboard/${data.first_name}_${data.last_name}/history`} className={`sidebar-item ${active === 4 ? 'active' :''} hover:active`}><div className="icon"><TbCalendarStats /></div>History</Link></li>
         <li><Link to={`/vendor_dashboard/${data.first_name}_${data.last_name}/profile`} className={`sidebar-item ${active === 5 ? 'active' :''} hover:active`}><div className="icon"><CgProfile /></div>Profile</Link></li>
+        <li><Link to={`/vendor_dashboard/${data.first_name}_${data.last_name}/contact`} className={`sidebar-item ${active === 6 ? 'active' :''} hover:active`}><div className="icon"><FaGear /></div>Contact</Link></li>
+
 
       </ul>
 

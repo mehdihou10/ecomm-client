@@ -20,6 +20,7 @@ import {
   Login,
   CheckboxType,
   ResetPassword,
+  VendorContact,
 } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
@@ -87,6 +88,10 @@ function App() {
         <Route
           path="vendor_dashboard/:username/profile/update"
           element={<VendorUpdate />}
+        />
+         <Route
+          path="vendor_dashboard/:username/contact"
+          element={<VendorContact />}
         />
 
         <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
