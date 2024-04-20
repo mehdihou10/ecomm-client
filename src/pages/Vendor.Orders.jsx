@@ -11,10 +11,6 @@ import Swal from "sweetalert2";
 
 const VendorOrders = () => {
   const [orders, setOrders] = useState([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
-  
   const fetchData = async () => {
     try {
       const response = await fetch(`${url}/api/products/orders/show`);
@@ -31,6 +27,9 @@ const VendorOrders = () => {
       console.error("error:", error);
     }
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handelDelete = async (id, userId) => {
     Swal.fire({

@@ -79,7 +79,6 @@ const VendorAddProduct = () => {
 
       if(data.status === "success"){
         navigate(`/vendor_dashboard/${userData.first_name}_${userData.last_name}/products`);
-
       } else if(data.status === "fail"){
 
         for(const error of data.message){
