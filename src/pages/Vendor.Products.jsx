@@ -154,7 +154,7 @@ const VendorProducts = () => {
                       {product.name}
                     </td>
                     <td className=" p-3 text-sm text-gray-700">
-                      {product.price}
+                      {product.price} DZD
                     </td>
                     <td className=" p-3 text-sm text-gray-700">
                       {product.cat_name}

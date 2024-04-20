@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import DashboardSidebar from "../components/Dashboard.Sidebar";
 import DashboardHeader from "../components/Dashboard.Header";
+import { FaStar } from "react-icons/fa6";
 import moment from 'moment';
 
 
@@ -90,6 +91,21 @@ const VendorProductDeatils = () => {
   },[])
 
 
+  function showStars(num){
+
+    const all = [1,2,3,4,5];
+
+    return (
+      <>
+      {
+        all.map(star=><FaStar key={star} className={`${star <= num ? 'text-yellow-500' : 'text-gray-500'}`} />)
+      }
+        
+      </>
+    )
+
+  }
+
   return (
     <>
     <ToastContainer theme="colored" position="top-left" />
@@ -156,13 +172,40 @@ const VendorProductDeatils = () => {
           </div>
 
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">Comments</dt>
+            <dt className="text-sm font-medium leading-6 text-gray-900 pb-[15px] sm:pb-0">Comments</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {
+                comments.length !== 0 ?
                 comments.map((comment,index)=>(
 
-                  <div key={index}>{comment.value}</div>
+                  <div key={index} className={`${index !== 0 ? 'pt-[20px]' : ''} ${index !== comments.length - 1 ? 'pb-[20px] border-b' : ''}`}>
+
+                    <div className="flex items-start gap-[5px]">
+                      <img src={comment.image} className="w-[30px]" />
+
+                      <div className="">
+                        <h3 className="font-semibold">{comment.first_name} {comment.last_name}</h3>
+
+                        <div className="">
+                          {
+                            comment.rating ?
+
+                            <div className="stars flex">
+                              {
+                                showStars(comment.rating)
+                              }
+                            </div>
+
+                            : <p className="italic text-gray-500 text-[13px]">No Rating</p>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-[6px]">"{comment.value}"</p>
+                  </div>
                 ))
+
+                :<p className="italic">No comments</p>
               }
             </dd>
           </div>

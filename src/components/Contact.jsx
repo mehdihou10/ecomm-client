@@ -23,41 +23,41 @@ const Contact = ({ type }) => {
     });
     const json = await response.json();
 
+
     if (json.status === "fail") {
       const errors = json.message;
       for (const error of errors) {
         toast.error(error.msg);
       }
-    } else {
+    } else if(json.status === "success") {
       setMessage("");
       toast.success("Message sent successfully");
-      fetchData();
     }
   };
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${url}/api/contact/messages`, {
-        headers: {
-          Authorization: `Bearer ${cookies.user}`,
-        },
-      });
-      const json = await response.json();
-      console.log(json);
-      if (json.status === "fail") {
-        const errors = json.message;
-        for (const error of errors) {
-          toast.error(error.msg);
-        }
-      } else {
-        setSentMessages(json.messages);
-      }
-    } catch (error) {
-      console.error("error:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await fetch(`${url}/api/contact/messages`, {
+  //       headers: {
+  //         Authorization: `Bearer ${cookies.user}`,
+  //       },
+  //     });
+  //     const json = await response.json();
+      
+  //     if (json.status === "fail") {
+  //       const errors = json.message;
+  //       for (const error of errors) {
+  //         toast.error(error.msg);
+  //       }
+  //     } else {
+  //       setSentMessages(json.messages);
+  //     }
+  //   } catch (error) {
+  //     console.error("error:", error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <>
@@ -68,11 +68,11 @@ const Contact = ({ type }) => {
             Contact Support
           </h1>
 
-          <span className="text-main"> admins will reply in 24 hours</span>
+          <span className="text-main text-[13px]"> admins will reply in 24 hours</span>
         </div>
-        <form action="">
+        <form className="w-[600px] max-w-full mx-auto">
           <div className="sm:col-span-2 mr-2 ml-2 pt-6">
-            <label htmlFor="message" className="text-lg font-semibold mb-2">
+            <label htmlFor="message" className="block text-center text-lg font-semibold mb-2">
               Message
             </label>
             <div className="mt-2.5">
@@ -83,19 +83,19 @@ const Contact = ({ type }) => {
                 id="message"
                 onChange={(e) => setMessage(e.target.value)}
                 rows={4}
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400   sm:text-sm sm:leading-6"
+                className="block w-full resize-none h-[250px] rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400   sm:text-sm sm:leading-6"
               />
             </div>
             <div className="mt-10">
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="block rounded-md bg-main px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="block mx-auto rounded-md bg-main px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Send Message
               </button>
             </div>
-            <div className="mt-8">
+            {/* <div className="mt-8">
               <h2 className="text-lg font-semibold mb-2">Messages Sent:</h2>
               <p>{sentMessages.length} messages</p>
               <div>
@@ -114,7 +114,7 @@ const Contact = ({ type }) => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </form>
       </div>
