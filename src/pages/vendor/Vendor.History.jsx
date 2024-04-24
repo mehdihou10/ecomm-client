@@ -1,8 +1,8 @@
 import {useState,useEffect} from 'react'
-import DashboardSidebar from '../components/Dashboard.Sidebar';
-import DashboardHeader from '../components/Dashboard.Header';
+import DashboardSidebar from '../../components/Dashboard.Sidebar';
+import DashboardHeader from '../../components/Dashboard.Header';
 import axios from 'axios';
-import { url } from '../api/api.url';
+import { url } from '../../api/api.url';
 import { useCookies } from 'react-cookie';
 import {toast,ToastContainer} from 'react-toastify';
 import moment from 'moment';
@@ -46,7 +46,7 @@ const VendorHistory = () => {
           <div className="header p-8 bg-white rounded shadow">
           <div className="sm:flex-row gap-5 flex-col flex items-center justify-between">
             <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
-              History
+              Confirmed Orders
             </h1>
           </div>
         </div>
@@ -75,6 +75,9 @@ const VendorHistory = () => {
                       Qte
                     </th>
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                      City
+                    </th>
+                    <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                       Date
                     </th>
                   </tr>
@@ -100,6 +103,9 @@ const VendorHistory = () => {
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         {his.qte}
+                      </td>
+                      <td className=" p-3 text-sm text-gray-700">
+                        {his.city}
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         {moment(his.date).fromNow()}

@@ -1,13 +1,13 @@
 import {useState,useEffect} from 'react'
 import {useNavigate} from 'react-router-dom';
-import DashboardSidebar from '../components/Dashboard.Sidebar';
-import DashboardHeader from '../components/Dashboard.Header';
+import DashboardSidebar from '../../components/Dashboard.Sidebar';
+import DashboardHeader from '../../components/Dashboard.Header';
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import { FaTrashAlt } from "react-icons/fa";
-import {handleFileChange} from '../functions/image.upload';
+import {handleFileChange} from '../../functions/image.upload';
 import {toast,ToastContainer} from 'react-toastify';
 import axios from 'axios';
-import { url } from '../api/api.url';
+import { url } from '../../api/api.url';
 import {useCookies} from 'react-cookie';
 
 

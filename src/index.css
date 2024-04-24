@@ -39,13 +39,16 @@ body{
     }
 
     .sidebar-item .icon{
-        @apply  text-white text-[18px]  rounded-[6px] w-[30px] h-[30px] grid place-items-center;
-        background: rgb(13,83,187);
-        background: linear-gradient(90deg, rgba(13,83,187,1) 0%, rgba(15,10,153,0.9836309523809523) 100%);
-        box-shadow: 1px 3px 4px 0 #ccc;
+        @apply  text-white text-[18px]  rounded-[6px] w-[30px] h-[30px] grid place-items-center dashboard-icon;
+      
 
     }
 
+    .dashboard-icon{
+        background: rgb(13,83,187);
+        background: linear-gradient(90deg, rgba(13,83,187,1) 0%, rgba(15,10,153,0.9836309523809523) 100%);
+        box-shadow: 1px 3px 4px 0 #ccc;
+    }
 
     .main-title{
         @apply text-white relative mb-[30px] after:content-[''] after:absolute
@@ -101,6 +104,9 @@ body{
         @apply relative mt-[20px] duration-300 border-2 border-white w-[200px] h-[40px]
         mx-auto grid place-items-center hover:text-black before:content-[""] before:absolute
         before:w-0 hover:before:w-full before:h-full before:left-0 before:top-0 before:bg-white before:-z-[1] before:duration-300
+    }
+    .overlay-screen{
+        @apply fixed w-full h-full top-0 left-0 bg-[#000000bf] z-[100]
     }
 }
 

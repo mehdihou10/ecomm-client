@@ -77,7 +77,7 @@ const DashboardSidebar = ({active,header}) => {
   return (
     
     
-    <div className={`w-[250px] max-w-full ${!header ? 'p-[20px]' : ''} h-[100vh] max-h-full sticky top-0`}>
+    <div className={`w-[250px] max-w-full ${!header ? 'p-[20px]' : ''} h-[100vh] max-h-full sticky top-0 overflow-y-auto`}>
       <a className='hidden md:block' href="">Logo</a>
 
       <ul className='flex flex-col  gap-[20px] mt-[40px]'>

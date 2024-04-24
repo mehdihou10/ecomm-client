@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import DashboardSidebar from "../components/Dashboard.Sidebar";
-import DashboardHeader from "../components/Dashboard.Header";
+import DashboardSidebar from "../../components/Dashboard.Sidebar";
+import DashboardHeader from "../../components/Dashboard.Header";
 import { useState } from "react";
-import { url } from "../api/api.url";
+import { url } from "../../api/api.url";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,6 +11,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
 import Swal from 'sweetalert2';
 import { BsFillInfoCircleFill } from "react-icons/bs";
+import { FaEye } from "react-icons/fa";
+
 
 
 const VendorProducts = () => {
@@ -162,7 +164,7 @@ const VendorProducts = () => {
                     <td className=" p-3 text-sm text-gray-700">
                     <button>
                             <Link to={`/vendor_dashboard/${vednorData.first_name}_${vednorData.last_name}/products/${product.id}`}>
-                              <BsFillInfoCircleFill className="size-5"></BsFillInfoCircleFill>
+                              <FaEye className="size-5"></FaEye>
                             </Link>
                       </button>
                       <button>

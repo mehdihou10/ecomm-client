@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import DashboardSidebar from "../components/Dashboard.Sidebar";
-import DashboardHeader from "../components/Dashboard.Header";
+import DashboardSidebar from "../../components/Dashboard.Sidebar";
+import DashboardHeader from "../../components/Dashboard.Header";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { url } from "../api/api.url";
+import { url } from "../../api/api.url";
 import { ToastContainer, toast } from "react-toastify";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { AiOutlineCheckCircle } from "react-icons/ai";
@@ -15,7 +15,6 @@ const VendorOrders = () => {
     try {
       const response = await fetch(`${url}/api/products/orders/show`);
       const json = await response.json();
-      console.log(json);
       if (json.status === "fail") {
         const errors = json.message;
         for (const error of errors) {
@@ -38,6 +37,7 @@ const VendorOrders = () => {
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
+        
         try {
           fetch(`${url}/api/products/orders/show/${id}`, {
             method: "DELETE",
@@ -45,9 +45,20 @@ const VendorOrders = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ id: userId }),
-          });
+            
+          }).then((res)=>res.json())
+          .then((data)=>{
+
+            if(data.status === "success"){
+              fetchData();
+            } else{
+              toast.error('Something went wrong');
+            }
+          })
+
+
         } catch (error) {
-          console.error(error);
+          toast.error('Something went wrong')
         }
       }
     });
@@ -61,6 +72,7 @@ const VendorOrders = () => {
         product_id: orderData.product_id,
         qte: orderData.qte,
         date: new Date(),
+        city: orderData.user_city
       })
       .then((res) => {
         if (res.data.status === "success") {

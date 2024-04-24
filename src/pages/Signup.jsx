@@ -33,6 +33,7 @@ const Signup = () => {
     image: `${appUrl}/images/user.png`,
     phone_number: null,
     city: null,
+    status: "pending",
     email_verification: Date.now(),
   });
 
@@ -88,7 +89,8 @@ const Signup = () => {
         apiAdd("vendors", {
           ...sendedData,
           phone_number: userData.phone_number,
-          city: userData.city
+          city: userData.city,
+          status: userData.status,
         });
       } else if (userType === "client") {
         apiAdd("users", sendedData);

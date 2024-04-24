@@ -1,6 +1,6 @@
-import DashboardSidebar from "../components/Dashboard.Sidebar";
-import DashboardHeader from "../components/Dashboard.Header";
-import Profile from "../components/Profile";
+import DashboardSidebar from "../../components/Dashboard.Sidebar";
+import DashboardHeader from "../../components/Dashboard.Header";
+import Profile from "../../components/Profile";
 
 
 const VendorProfile = () => {

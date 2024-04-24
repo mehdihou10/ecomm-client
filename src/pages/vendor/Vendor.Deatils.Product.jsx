@@ -1,11 +1,11 @@
 import axios from "axios";
-import { url } from "../api/api.url";
+import { url } from "../../api/api.url";
 import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import DashboardSidebar from "../components/Dashboard.Sidebar";
-import DashboardHeader from "../components/Dashboard.Header";
+import DashboardSidebar from "../../components/Dashboard.Sidebar";
+import DashboardHeader from "../../components/Dashboard.Header";
 import { FaStar } from "react-icons/fa6";
 import moment from 'moment';
 

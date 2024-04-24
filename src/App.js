@@ -8,6 +8,7 @@ import {
   UserDashboard,
   VendorDashboard,
   VendorProducts,
+  VendorProductDeatils,
   VendorAddProduct,
   VendorEditProduct,
   VendorOrders,
@@ -15,7 +16,6 @@ import {
   VendorProfile,
   VendorUpdate,
   AdminDashboard,
-  Contact,
   Signup,
   Login,
   CheckboxType,
@@ -27,7 +27,7 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { isSigned } from "./store/slices/sign.slice";
 import { useEffect } from "react";
-import VendorProductDeatils from "./pages/Vendor.Deatils.Product";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -95,7 +95,6 @@ function App() {
         />
 
         <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
-        <Route path="Contact" element={<Contact />} />
         <Route path="reset_password/:userToken" element={<ResetPassword />} />
       </Routes>
     </>

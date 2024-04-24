@@ -1,12 +1,12 @@
-import DashboardSidebar from "../components/Dashboard.Sidebar";
-import DashboardHeader from '../components/Dashboard.Header';
+import DashboardSidebar from "../../components/Dashboard.Sidebar";
+import DashboardHeader from '../../components/Dashboard.Header';
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { url } from "../api/api.url";
+import { url } from "../../api/api.url";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import {useCookies} from 'react-cookie';
-import {cities} from '../data/cities';
+import {cities} from '../../data/cities';
 
 
 const VendorUpdate = () => {
