@@ -67,23 +67,21 @@ const Contact = ({ type }) => {
           <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
             Contact Support
           </h1>
-
           <span className="text-main text-[13px]"> admins will reply in 24 hours</span>
         </div>
-        <form className="w-[600px] max-w-full mx-auto">
-          <div className="sm:col-span-2 mr-2 ml-2 pt-6">
+        <form className="mt-8 sm:flex justify-center items-center">
+          <div className="text-center">
             <label htmlFor="message" className="block text-center text-lg font-semibold mb-2">
               Message
             </label>
-            <div className="mt-2.5">
+            <div className="mt-2.5 ml-2 mr-2">
               <textarea
                 required
                 value={message}
                 name="message"
                 id="message"
                 onChange={(e) => setMessage(e.target.value)}
-                
-                className="block w-[500px] max-w-full resize-none h-[250px] rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400   sm:text-sm sm:leading-6"
+                className="block w-[500px] max-w-full resize-none h-[250px] rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
               />
             </div>
             <div className="mt-10">
@@ -95,26 +93,6 @@ const Contact = ({ type }) => {
                 Send Message
               </button>
             </div>
-            {/* <div className="mt-8">
-              <h2 className="text-lg font-semibold mb-2">Messages Sent:</h2>
-              <p>{sentMessages.length} messages</p>
-              <div>
-                {sentMessages.map((message) => (
-                  <div
-                    key={message.id}
-                    className="pt-4 
-                     rounded-lg mb-2"
-                  >
-                    <div className="flex items-center text-black pt-2 rounded-lg">
-                      <p className="flex-grow ">{message.message}</p>
-                      <p className="text-sm">
-                        {moment(message.date).fromNow()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div> */}
           </div>
         </form>
       </div>
@@ -122,4 +100,24 @@ const Contact = ({ type }) => {
   );
 };
 
+{/* <div className="mt-8">
+  <h2 className="text-lg font-semibold mb-2">Messages Sent:</h2>
+  <p>{sentMessages.length} messages</p>
+  <div>
+    {sentMessages.map((message) => (
+      <div
+        key={message.id}
+        className="pt-4 
+         rounded-lg mb-2"
+      >
+        <div className="flex items-center text-black pt-2 rounded-lg">
+          <p className="flex-grow ">{message.message}</p>
+          <p className="text-sm">
+            {moment(message.date).fromNow()}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div> */}
 export default Contact;
