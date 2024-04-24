@@ -35,7 +35,7 @@ const VendorHistory = () => {
   },[])
   
   return (
-    <div className='flex'>
+    <div className='sm:flex'>
       <ToastContainer theme='colored' position='top-left' />
 
         <div className="hidden md:block"><DashboardSidebar active={4} /></div>
