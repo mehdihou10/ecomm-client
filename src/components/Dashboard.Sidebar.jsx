@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'
 import axios from 'axios';
 import {url} from '../api/api.url';
 import {useCookies} from 'react-cookie';
+import Logo from './Logo';
 
 
 
@@ -78,7 +79,7 @@ const DashboardSidebar = ({active,header}) => {
     
     
     <div className={`w-[250px] max-w-full ${!header ? 'p-[20px]' : ''} h-[100vh] max-h-full sticky top-0 overflow-y-auto`}>
-      <a className='hidden md:block' href="">Logo</a>
+      <div className='hidden md:block'><Logo /></div>
 
       <ul className='flex flex-col  gap-[20px] mt-[40px]'>
         <li><Link to={`/vendor_dashboard/${data.first_name}_${data.last_name}`} className={`sidebar-item ${active === 1 ? 'active' :''} hover:active`}><div className="icon"><AiFillHome /></div>Dashboard</Link></li>

@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import {useCookies} from 'react-cookie';
 import axios from 'axios';
 import {url} from '../api/api.url';
+import Logo from './Logo';
 
 
 
@@ -42,8 +43,6 @@ const DashboardHeader = ({active}) => {
     }
   },[isSign])
 
-  // const data = jwtDecode(cookies.user);
-
 
     const [toggle,setToggle] = useState(false);
 
@@ -61,7 +60,7 @@ const DashboardHeader = ({active}) => {
     </div>
 
     <div className='flex justify-between items-center p-[20px] md:hidden'>
-      <a href="">logo</a>
+      <div><Logo /></div>
 
       <div>
       <img src={data.image} className='w-[30px] h-[30px] mx-auto rounded-full' />

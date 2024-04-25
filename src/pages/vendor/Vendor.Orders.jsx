@@ -8,12 +8,23 @@ import { ToastContainer, toast } from "react-toastify";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
+import { useCookies } from "react-cookie";
 
 const VendorOrders = () => {
+
+  const [cookies,setCookies,removeCookies] = useCookies(['user']);
+
+
   const [orders, setOrders] = useState([]);
+
+
   const fetchData = async () => {
     try {
-      const response = await fetch(`${url}/api/products/orders/show`);
+      const response = await fetch(`${url}/api/products/orders/show`,{
+        headers: {
+          Authorization: `Bearer ${cookies.user}`
+        }
+      });
       const json = await response.json();
       if (json.status === "fail") {
         const errors = json.message;
@@ -105,7 +116,7 @@ const VendorOrders = () => {
           <h1 className="p-4">No Orders Yet...</h1>
         ) : (
           <div className="">
-            <div className="bg-white rounded-lg  overflow-y-auto shadow mt-4">
+            <div className="bg-white rounded-lg  overflow-auto shadow mt-4">
               <table className="sm:w-full table-auto ">
                 <thead className="bg-gray-50 border-b-2 border-gray-200">
                   <tr>
