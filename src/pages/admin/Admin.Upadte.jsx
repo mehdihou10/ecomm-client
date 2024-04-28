@@ -7,6 +7,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import {useCookies} from 'react-cookie';
 import {cities} from '../../data/cities';
+import AdminSidebar from "../../components/Admin.Sidebar";
 
 const AdminUpdate = () =>{
     const [cookies,setCookie,removeCookie] = useCookies(['user']);
@@ -76,7 +77,7 @@ const AdminUpdate = () =>{
     
     <div className="flex gap-[20px]">
 
-      <div className="hidden md:block"><DashboardSidebar active={5} /></div>
+      <div className="hidden md:block"><AdminSidebar active={5} /></div>
 
       <div className="flex-1">
         <DashboardHeader active={5} />
