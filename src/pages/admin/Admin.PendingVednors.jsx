@@ -2,7 +2,7 @@
 
 const PendingVendors = () =>{
     return(
-        <h1>pv</h1> 
+        <h1>hello</h1> 
     )
 }
 

@@ -2,7 +2,7 @@
 
 const Clients = () =>{
     return(
-        <h1>C</h1> 
+        <h1>hello world</h1> 
     )
 }
 

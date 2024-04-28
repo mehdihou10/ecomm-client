@@ -2,7 +2,7 @@
 
 const VendorMessages = () =>{
     return(
-         <h1>VM </h1>
+         <h1>heloo</h1>
     )
 }
 
