@@ -13,6 +13,7 @@ import { isSigned } from "../store/slices/sign.slice";
 import axios from "axios";
 import { url } from "../api/api.url";
 import Swal from "sweetalert2";
+import Logo from './Logo';
 
 
 //local components
@@ -107,12 +108,13 @@ const Profile = () => {
       if (res.isConfirmed) {
         removeCookie('user',{path: "/"})
         dispatch(isSigned());
+        navigate('/')
       }
     });
   };
 
   return (
-    <div className="text-black relative">
+    <div className="text-black relative z-[10]">
       <div
         data-info="profile"
         onClick={() => setShowOptions((prev) => !prev)}
@@ -169,7 +171,10 @@ const Profile = () => {
 };
 
 const ToggleSidebar = () => {
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const isSign = useSelector((state) => state.isSigned);
   const [cookies,setCookie,removeCookie] = useCookies(['user']);
@@ -216,6 +221,7 @@ const ToggleSidebar = () => {
       if (res.isConfirmed) {
         removeCookie('user',{path: "/"})
         dispatch(isSigned());
+        navigate('/')
       }
     });
   };
@@ -321,7 +327,7 @@ const Header = () => {
           <div className="hidden md:block">
             <ToggleSidebar />
           </div>
-          <Link to="/">Logo</Link>
+          <Link to="/"><Logo /></Link>
         </div>
 
         <div className="search-bar hidden lg:block">

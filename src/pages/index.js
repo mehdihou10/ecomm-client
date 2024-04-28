@@ -5,6 +5,8 @@ export {default as Shop} from './Shop';
 export {default as Checkout} from './Checkout';
 export {default as WishList} from './WishList';
 export {default as UserDashboard} from './client/UserDashboard';
+export {default as UserContact} from './client/User.Contact';
+export {default as UserProfile} from './client/User.Profile';
 export {default as VendorDashboard} from './vendor/VendorDashboard';
 export {default as VendorProfile} from './vendor/Vendor.Profile';
 export {default as VendorOrders} from './vendor/Vendor.Orders';
