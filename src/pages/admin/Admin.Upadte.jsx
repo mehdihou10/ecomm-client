@@ -81,18 +81,18 @@ const AdminUpdate = () =>{
       <div className="flex-1">
         <DashboardHeader active={5} />
         
-      <div className="py-20 px-[20px] bg-white">
+      <div className="py-20 px-[20px] bg-white h-full">
         <div className="space-y-12">
           <div className="border-b border-gray-900/10">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Update Profile
             </h2>
 
-            <div className="relative w-fit">
+            {/* <div className="relative w-fit">
 
               <img src={selectedImage} className="w-[100px] h-[100px] object-cover rounded-full" />
 
-            </div>
+            </div> */}
 
             <p className="mt-1 text-sm leading-6 text-gray-600">
               This information will be displayed publicly so be careful what you
@@ -149,33 +149,7 @@ const AdminUpdate = () =>{
                 </div>
               </div>
 
-            
-
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="phone_number"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  City
-                </label>
-                <div className="mt-2">
-                  <select
-                    name="city"
-                    id="city"
-                    onChange={(e) => setCity(e.target.value)}
-                    autoComplete="address-level2"
-                    className="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                  >
-                    <option selected disabled>Select a city</option>
-
-                    {
-                      cities.map(city=><option key={city} value={city}>{city}</option>)
-                    }
-
-                    </select>
-
-                </div>
-              </div>
+        
 
 
             </div>
@@ -187,7 +161,7 @@ const AdminUpdate = () =>{
           <button
             onClick={() =>
               navigate(
-                `/vendor_dashboard/${userData.first_name}_${userData.last_name}/profile`
+                `/admin_dashboard/${userData.first_name}_${userData.last_name}/profile`
               )
             }
             type="button"

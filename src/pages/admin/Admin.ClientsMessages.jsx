@@ -2,7 +2,7 @@
 
 const ClientMEssages = () =>{
     return(
-        CM
+        <h1>CM</h1>
     )
 }
 

@@ -2,7 +2,7 @@
 
 const AcceptedVendors = () =>{
     return(
-        AV
+        <h1>AV</h1>
     )
 }
 
