@@ -99,7 +99,7 @@ const Profile = ({type}) => {
             }
 
 
-            <Link to={`/${type === "vendor" ? "vendor" : "user"}_dashboard/${userData.first_name}_${userData.last_name}/profile/update`}>
+            <Link to={`/${type === "vendor" ? "vendor" : type === "admin" ? "admin" : "user"}_dashboard/${userData.first_name}_${userData.last_name}/profile/update`}>
               <button
                 className="bg-main py-2 px-6 font-semibold text-white"
               >

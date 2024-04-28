@@ -23,3 +23,11 @@ export {default as Login} from './Login';
 export {default as CheckboxType} from './CheckboxType';
 export {default as ResetPassword} from './ResetPassword';
 
+export {default as AdminProfile} from './admin/Admin.Profile';
+export {default as Clients} from './admin/Admin.CLients';
+export {default as AcceptedVendors} from './admin/Admin.AcceptedVendors'; 
+export {default as PendingVendors} from './admin/Admin.PendingVednors';
+export {default as AdminUpdate} from './admin/Admin.Upadte';
+export {default as ClientMessages} from './admin/Admin.ClientsMessages';
+export {default as VendorMessages} from './admin/Admin.VendorsMessages';
+ 

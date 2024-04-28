@@ -6,10 +6,9 @@ import axios from "axios";
 import email_image from "../images/email.png";
 import { IoMdRefresh } from "react-icons/io";
 import { useCookies } from "react-cookie";
-import {isSigned} from '../store/slices/sign.slice';
-import {useDispatch} from 'react-redux';
-import {jwtDecode} from 'jwt-decode';
-
+import { isSigned } from "../store/slices/sign.slice";
+import { useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -29,48 +28,42 @@ const Login = () => {
     });
     const json = await response.json();
 
-
     if (json.status === "fail") {
       const errors = json.message;
       for (const error of errors) {
         toast.error(error.msg);
       }
     } else if (json.status === "success") {
-
       const expirationDate = new Date();
-    expirationDate.setMonth(expirationDate.getMonth() + 1);
-    setCookie("user", json.token,{expires: expirationDate,path: "/"});
+      expirationDate.setMonth(expirationDate.getMonth() + 1);
+      setCookie("user", json.token, { expires: expirationDate, path: "/" });
 
-      dispatch(isSigned())
+      dispatch(isSigned());
 
-      axios.post(`${url}/api/decode`,null,{
-        headers: {
-          Authorization: `Bearer ${json.token}`
-        }
-      }).then((res)=>{
+      axios
+        .post(`${url}/api/decode`, null, {
+          headers: {
+            Authorization: `Bearer ${json.token}`,
+          },
+        })
+        .then((res) => {
+          const data = res.data;
 
-        const data = res.data;
+          if (data.status === "success") {
+            const user = data.user;
 
-        if(data.status === "success"){
-
-          const user = data.user;
-
-          if(json.type === "client"){
-
-            navigate("/")
-          } else if(json.type === "vendor"){
-
-            navigate(`/vendor_dashboard/${user.first_name}_${user.last_name}`)
-           
+            if (json.type === "client") {
+              navigate("/");
+            } else if (json.type === "vendor") {
+              navigate(
+                `/vendor_dashboard/${user.first_name}_${user.last_name}`
+              );
+            } else if (json.type === "admin") {
+              navigate(`/admin_dashboard/${user.first_name}_${user.last_name}`);
+            }
           }
-
-        }
-
-      })
-
-          
-        }
-      
+        });
+    }
   };
 
   const sendPasswordEmail = () => {

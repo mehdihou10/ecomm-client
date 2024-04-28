@@ -21,13 +21,19 @@ import {
   CheckboxType,
   ResetPassword,
   VendorContact,
+  AdminProfile,
+  Clients,
+  AcceptedVendors,
+  PendingVendors,
+  AdminUpdate,
+  ClientMessages,
+  VendorMessages,
 } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { isSigned } from "./store/slices/sign.slice";
 import { useEffect } from "react";
-
 
 function App() {
   const dispatch = useDispatch();
@@ -89,12 +95,37 @@ function App() {
           path="vendor_dashboard/:username/profile/update"
           element={<VendorUpdate />}
         />
-         <Route
+        <Route
           path="vendor_dashboard/:username/contact"
           element={<VendorContact />}
         />
 
         <Route path="admin_dashboard/:username" element={<AdminDashboard />} />
+        <Route
+          path="admin_dashboard/:username/pendingvendors"
+          element={<PendingVendors />}
+        />
+        <Route
+          path="admin_dashboard/:username/acceptedvednors"
+          element={<AcceptedVendors />}
+        />
+        <Route path="admin_dashboard/:username/clients" element={<Clients />} />
+        <Route
+          path="admin_dashboard/:username/clientmessages"
+          element={<ClientMessages />}
+        />
+        <Route
+          path="admin_dashboard/:username/vendormessages"
+          element={<VendorMessages />}
+        />
+        <Route
+          path="admin_dashboard/:username/profile"
+          element={<AdminProfile></AdminProfile>}
+        ></Route>
+        <Route
+          path="admin_dashboard/:username/profile/update"
+          element={<AdminUpdate></AdminUpdate>}
+        ></Route>
         <Route path="reset_password/:userToken" element={<ResetPassword />} />
       </Routes>
     </>
