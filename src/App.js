@@ -6,6 +6,9 @@ import {
   Checkout,
   WishList,
   UserDashboard,
+  UserProfile,
+  UserContact,
+  UserOrders,
   VendorDashboard,
   VendorProducts,
   VendorProductDeatils,
@@ -54,7 +57,23 @@ function App() {
         <Route path="cart" element={<Shop />} />
         <Route path="wishlist" element={<WishList />} />
         <Route path="checkout" element={<Checkout />} />
+
         <Route path="user_dashboard/:username" element={<UserDashboard />} />
+
+        <Route
+          path="user_dashboard/:username/profile"
+          element={<UserProfile />}
+        />
+
+        <Route
+          path="user_dashboard/:username/contact"
+          element={<UserContact />}
+        />
+
+        <Route
+          path="user_dashboard/:username/orders"
+          element={<UserOrders />}
+        />
 
         <Route
           path="vendor_dashboard/:username"
