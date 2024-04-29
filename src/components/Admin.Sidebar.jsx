@@ -84,7 +84,7 @@ const AdminSidebar = ({active,header}) => {
       <ul className='flex flex-col  gap-[20px] mt-[40px]'>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}`} className={`sidebar-item ${active === 1 ? 'active' :''} hover:active`}><div className="icon"><AiFillHome /></div>Dashboard</Link></li>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/profile`} className={`sidebar-item ${active === 2 ? 'active' :''} hover:active`}><div className="icon"><CgProfile /></div>Profile</Link></li>
-        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/products`} className={`sidebar-item ${active === 3 ? 'active' :''} hover:active`}><div className="icon"><BiStore /></div>Products</Link></li>
+        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/pendingvendors`} className={`sidebar-item ${active === 3 ? 'active' :''} hover:active`}><div className="icon"><BiStore /></div>Pending Vendors</Link></li>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/orders`} className={`sidebar-item ${active === 4 ? 'active' :''} hover:active`}><div className="icon"><LiaTableSolid /></div>Orders</Link></li>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/history`} className={`sidebar-item ${active === 5 ? 'active' :''} hover:active`}><div className="icon"><TbCalendarStats /></div>History</Link></li>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/contact`} className={`sidebar-item ${active === 6 ? 'active' :''} hover:active`}><div className="icon"><FaGear /></div>Contact</Link></li>
