@@ -83,7 +83,8 @@ const VendorOrders = () => {
         product_id: orderData.product_id,
         qte: orderData.qte,
         date: new Date(),
-        city: orderData.user_city
+        city: orderData.user_city,
+        total: orderData.total
       })
       .then((res) => {
         if (res.data.status === "success") {
@@ -138,6 +139,11 @@ const VendorOrders = () => {
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                       Qte
                     </th>
+
+                    <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                      Total
+                    </th>
+
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                       Operations
                     </th>
@@ -170,6 +176,9 @@ const VendorOrders = () => {
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         {order.qte}
+                      </td>
+                      <td className=" p-3 text-sm text-gray-700">
+                        {order.total} DZD
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         <button>

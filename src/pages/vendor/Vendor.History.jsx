@@ -75,6 +75,9 @@ const VendorHistory = () => {
                       Qte
                     </th>
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                      Total
+                    </th>
+                    <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                       City
                     </th>
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
@@ -103,6 +106,9 @@ const VendorHistory = () => {
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         {his.qte}
+                      </td>
+                      <td className=" p-3 text-sm text-gray-700">
+                        {his.total} DZD
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         {his.city}

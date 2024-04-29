@@ -7,6 +7,7 @@ import {
   WishList,
   UserDashboard,
   UserProfile,
+  UserUpdateProfile,
   UserContact,
   UserOrders,
   VendorDashboard,
@@ -63,6 +64,11 @@ function App() {
         <Route
           path="user_dashboard/:username/profile"
           element={<UserProfile />}
+        />
+
+         <Route
+          path="user_dashboard/:username/profile/update"
+          element={<UserUpdateProfile />}
         />
 
         <Route

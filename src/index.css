@@ -108,6 +108,9 @@ body{
     .overlay-screen{
         @apply fixed w-full h-full top-0 left-0 bg-[#000000bf] z-[100]
     }
+    .box-shadow{
+        box-shadow: 0px -1px 16px 1px #ccc;
+    }
 }
 
 .hero{
