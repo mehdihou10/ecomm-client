@@ -1,9 +1,12 @@
 import React from 'react'
+import Profile from '../../components/Profile';
+import Header from '../../components/Header';
 
 const UserProfile = () => {
   return (
     <div>
-      Profile
+      <Header />
+      <Profile type="client" />
     </div>
   )
 }

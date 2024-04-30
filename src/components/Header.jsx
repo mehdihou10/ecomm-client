@@ -88,7 +88,11 @@ const Profile = () => {
 
           navigate(`/vendor_dashboard/${data.user.first_name}_${data.user.last_name}`);
 
-        } else{
+        } else if(data.user.type === "admin"){
+          navigate(`/admin_dashboard/${data.user.first_name}_${data.user.last_name}`);
+
+        }
+        else{
           setUserData(data.user);
 
         }
