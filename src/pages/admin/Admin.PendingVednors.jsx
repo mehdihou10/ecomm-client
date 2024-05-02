@@ -58,6 +58,7 @@ const PendingVendors = () => {
   };
 
   const acceptVendor = (vendorId) => {
+    const date = new Date();
     Swal.fire({
       icon: "warning",
       title: "Are You Sure?",
@@ -65,15 +66,13 @@ const PendingVendors = () => {
     }).then((res) => {
       if (res.isConfirmed) {
         axios
-          .post(`${url}/api/admin/accounts/vednor/${vendorId}`)
+          .post(`${url}/api/admin/accounts/vednor/${vendorId}`, {
+            date,
+          })
           .then((response) => {
-            console.log(response);
-
             const data = response.data;
-            console.log(data);
 
             if (data.status === "success") {
-              console.log("fetchData");
               fetchData();
             } else {
               toast.error("Something wrong happened");
