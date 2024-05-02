@@ -4,10 +4,16 @@ import {url} from '../../api/api.url';
 import {useCookies} from 'react-cookie';
 import {toast,ToastContainer} from 'react-toastify';
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { GrStatusGoodSmall } from "react-icons/gr";
+import { FaCheck } from "react-icons/fa6";
 import Header from '../../components/Header';
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 
 const UserOrders = () => {
+
+  const navigate = useNavigate();
 
   const [cookies,setCookie,removeCookie] = useCookies(['user']);
 
@@ -78,6 +84,21 @@ const UserOrders = () => {
   })
 
 
+  function confirmOrder(id){
+
+    axios.patch(`${url}/api/users/order/${id}/confirm`,null)
+    .then((res)=>{
+
+      const status = res.data.status;
+
+      if(status === "success"){
+        navigate(`/user_dashboard/${userData.first_name}_${userData.last_name}/orders/${id}/confirm`)
+      } else{
+        toast.error('Something went Wrong');
+      }
+    })
+  }
+
   return (
     <div>
       <ToastContainer theme='colored' position='top-left' />
@@ -104,6 +125,8 @@ const UserOrders = () => {
 
           {/* <div className="overflow-x-scroll"></div> */}
           {type === "pending" &&
+
+        (  pendingOrders.length !== 0 ?
            <table className="table-auto w-full overflow-x-scroll">
            <thead className="bg-gray-50 border-b-2 border-gray-200">
              <tr>
@@ -124,6 +147,9 @@ const UserOrders = () => {
                </th>
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                  Total
+               </th>
+               <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                 Date
                </th>
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                  Status
@@ -161,7 +187,10 @@ const UserOrders = () => {
                    {order.total} DZD
                  </td>
                  <td className=" p-3 text-sm text-gray-700">
-                   {type}
+                   {moment(order.date).fromNow()}
+                 </td>
+                 <td className=" p-3 text-sm text-gray-700">
+                   <GrStatusGoodSmall className='text-orange-500' />
                  </td>
               
                </tr>
@@ -169,10 +198,13 @@ const UserOrders = () => {
            </tbody>
           </table>
 
+          :<p className='text-center text-gray-500 italic'>There is no pending orders</p>)
           }
 
           {
             type === "accepted" &&
+
+            (acceptedOrders.length !== 0 ?
             <table className="table-auto w-full overflow-x-scroll">
            <thead className="bg-gray-50 border-b-2 border-gray-200">
              <tr>
@@ -195,7 +227,14 @@ const UserOrders = () => {
                  Total
                </th>
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                 Date
+               </th>
+               <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                  Status
+               </th>
+
+               <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                 Received?
                </th>
 
         
@@ -230,17 +269,36 @@ const UserOrders = () => {
                    {order.total} DZD
                  </td>
                  <td className=" p-3 text-sm text-gray-700">
-                   {type}
+                   {moment(order.date).fromNow()}
+                 </td>
+                 <td className=" p-3 text-sm text-gray-700">
+                 <GrStatusGoodSmall className='text-green-500' />
+                 </td>
+                 <td className=" p-3 text-sm text-gray-700">
+
+                 { order.received ?
+
+                 <span className='flex justify-center items-center gap-[2px] w-[100px] h-[40px] bg-green-500 text-white pointer-events-none'>
+                  <FaCheck className='font-bold text-[18px]' /> Confrimed
+                  </span>
+
+                 :
+                  <button onClick={()=>confirmOrder(order.id)} className='grid place-items-center w-[100px] h-[40px] bg-main text-white'>Confirm</button>
+                 }
                  </td>
               
                </tr>
              ))}
            </tbody>
-          </table>
+            </table>
+
+            : <p className='text-center text-gray-500 italic'>There is no accepted orders</p>)
           }
 
           {
             type === "rejected" &&
+
+            (rejectedOrders.length !== 0 ?
             <table className="table-auto w-full overflow-x-scroll">
            <thead className="bg-gray-50 border-b-2 border-gray-200">
              <tr>
@@ -256,6 +314,10 @@ const UserOrders = () => {
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                  Phone Number
                </th>
+
+               <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                 Date
+               </th>
                
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                  Status
@@ -265,7 +327,7 @@ const UserOrders = () => {
              </tr>
            </thead>
            <tbody className="">
-             {pendingOrders.map((order) => (
+             {rejectedOrders.map((order) => (
                <tr
                  className="border-b-2 h-16 border-gray-200"
                  key={order.id}
@@ -286,16 +348,22 @@ const UserOrders = () => {
                  <td className=" p-3 text-sm text-gray-700">
                    {order.phone_number}
                  </td>
+                 <td className=" p-3 text-sm text-gray-700">
+                   {moment(order.date).fromNow()}
+                 </td>
                  
                 
                  <td className=" p-3 text-sm text-gray-700">
-                   {type}
+                 <GrStatusGoodSmall className='text-red-500' />
+                   
                  </td>
               
                </tr>
              ))}
            </tbody>
-          </table>
+            </table>
+
+            : <p className='text-center text-gray-500 italic'>There is no rejected orders</p>)
           }
         </div>
 

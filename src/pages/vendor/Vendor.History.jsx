@@ -40,7 +40,7 @@ const VendorHistory = () => {
 
         <div className="hidden md:block"><DashboardSidebar active={4} /></div>
         
-        <div className="flex-1">
+        <div className="flex-1 overflow-x-auto">
           <DashboardHeader active={4} />
 
           <div className="header p-8 bg-white rounded shadow">

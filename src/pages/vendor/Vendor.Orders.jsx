@@ -9,6 +9,8 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useCookies } from "react-cookie";
+import moment from 'moment';
+
 
 const VendorOrders = () => {
 
@@ -103,7 +105,7 @@ const VendorOrders = () => {
         <DashboardSidebar active={3} />
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 overflow-x-auto">
         <DashboardHeader active={3} />
         <div className="header p-8 bg-white rounded shadow">
           <div className="sm:flex-row gap-5 flex-col flex items-center justify-between">
@@ -143,6 +145,9 @@ const VendorOrders = () => {
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                       Total
                     </th>
+                    <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
+                      Since
+                    </th>
 
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                       Operations
@@ -179,6 +184,9 @@ const VendorOrders = () => {
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         {order.total} DZD
+                      </td>
+                      <td className=" p-3 text-sm text-gray-700">
+                        {moment(order.date).fromNow()}
                       </td>
                       <td className=" p-3 text-sm text-gray-700">
                         <button>

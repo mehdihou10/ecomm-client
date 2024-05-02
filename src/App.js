@@ -10,6 +10,7 @@ import {
   UserUpdateProfile,
   UserContact,
   UserOrders,
+  UserConfirmOrder,
   VendorDashboard,
   VendorProducts,
   VendorProductDeatils,
@@ -80,6 +81,12 @@ function App() {
           path="user_dashboard/:username/orders"
           element={<UserOrders />}
         />
+
+        <Route
+          path="user_dashboard/:username/orders/:orderId/confirm"
+          element={<UserConfirmOrder />}
+        />
+        
 
         <Route
           path="vendor_dashboard/:username"

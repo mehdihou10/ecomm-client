@@ -9,6 +9,7 @@ export {default as UserContact} from './client/User.Contact';
 export {default as UserProfile} from './client/User.Profile';
 export {default as UserUpdateProfile} from './client/User.Update.Profile';
 export {default as UserOrders} from './client/User.Orders';
+export {default as UserConfirmOrder} from './client/User.Confirm.Order';
 export {default as VendorDashboard} from './vendor/VendorDashboard';
 export {default as VendorProfile} from './vendor/Vendor.Profile';
 export {default as VendorOrders} from './vendor/Vendor.Orders';
