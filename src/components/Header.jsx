@@ -302,9 +302,11 @@ const ToggleSidebar = () => {
             Categories
           </h3>
 
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <Link
+            to={`/categories/${category.name}`}
               key={category.id}
+              
               className={`flex items-center gap-[10px]
                         hover:bg-gray-300 py-[10px] px-[15px] duration-500 rounded-[10px]`}
             >

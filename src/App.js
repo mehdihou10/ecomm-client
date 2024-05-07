@@ -1,6 +1,7 @@
 import {
   Home,
   Products,
+  CategoryProducts,
   ProductDetails,
   Shop,
   Checkout,
@@ -54,8 +55,8 @@ function App() {
         <Route path="auth/login" element={<Login />} />
         <Route path="auth/type" element={<CheckboxType />} />
         <Route path="auth/signup" element={<Signup />} />
-        <Route path="products" element={<Products />} />
-        <Route path="products/:productId" element={<ProductDetails />} />
+        <Route path="categories/:categoryName" element={<CategoryProducts />} />
+        <Route path="products/:productName" element={<ProductDetails />} />
         <Route path="cart" element={<Shop />} />
         <Route path="wishlist" element={<WishList />} />
         <Route path="checkout" element={<Checkout />} />

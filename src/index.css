@@ -23,7 +23,7 @@ body{
 @layer base{
 
     body{
-        @apply bg-background
+        @apply bg-background overflow-x-hidden
     }
   
     .btn{
@@ -111,8 +111,19 @@ body{
     .box-shadow{
         box-shadow: 0px -1px 16px 1px #ccc;
     }
+    .show-products{
+        @apply grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-[20px];
+    }
 }
 
 .hero{
     height: calc(80vh - 40px)
 }
+.swiper-wrapper{
+    cursor: -webkit-grab;
+
+}
+.swiper-slide{
+    height: 200px !important;
+}
+
