@@ -89,7 +89,7 @@ const ClientMessages = () => {
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       {message.email}
                     </p>
-                    <p className="mt-1 truncate text-sm w-auto text-wrap leading-5 mb-4 ">
+                    <p className="mt-1 truncate text-gray-600 text-sm w-auto text-wrap leading-5 mb-4 ">
                       {message.message}
                     </p>
                   </div>
