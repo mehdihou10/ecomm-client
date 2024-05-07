@@ -11,7 +11,7 @@ const Categories = () => {
     useEffect(()=>{
         axios.get(`${url}/api/categories`)
        .then((res)=>{
-
+        
         const data = res.data;
 
         if(data.status === "success"){
