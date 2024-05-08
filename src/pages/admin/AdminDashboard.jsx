@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   if (Object.keys(stats).length !== 0) {
     clients = stats.clients.clients;
     vendors = stats.vendors.vendors;
-    ordersPercentage = stats.ordersPercentage.ordersPercentage;
+    ordersPercentage = stats.ordersPercentage;
   }
 
   const ordersChart = {
@@ -179,7 +179,7 @@ const AdminDashboard = () => {
                 <Box
                   icon={<LiaTableSolid />}
                   text="Total Accepted Orders"
-                  data={stats.acceptedOrders.acceptedOrders || 0}
+                  data={stats.acceptedOrders.acceptedorders || 0}
                 />
               </div>
             )}
