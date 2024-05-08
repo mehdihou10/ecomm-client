@@ -9,19 +9,96 @@ import axios from "axios";
 import { BiStore } from "react-icons/bi";
 import { LiaTableSolid } from "react-icons/lia";
 import { FaPeopleGroup } from "react-icons/fa6";
+import Chart from "react-apexcharts";
 
 const AdminDashboard = () => {
   const [adminData, setAdminData] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-  const [stats, setStats] = useState([]);
+  const [stats, setStats] = useState({});
+
+  let clients = 0;
+  let vendors = 0;
+  let ordersPercentage = 0;
+
+  if (Object.keys(stats).length !== 0) {
+    clients = stats.clients.clients;
+    vendors = stats.vendors.vendors;
+    ordersPercentage = stats.ordersPercentage.ordersPercentage;
+  }
+
+  const ordersChart = {
+    series: [ordersPercentage || 0],
+    options: {
+      chart: {
+        height: 350,
+        type: "radialBar",
+        offsetY: -10,
+      },
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          dataLabels: {
+            name: {
+              fontSize: "16px",
+              color: undefined,
+              offsetY: 120,
+            },
+            value: {
+              offsetY: 76,
+              fontSize: "22px",
+              color: undefined,
+              formatter: function (val) {
+                return val + "%";
+              },
+            },
+          },
+        },
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "dark",
+          shadeIntensity: 0.15,
+          inverseColors: false,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [0, 50, 65, 91],
+        },
+      },
+      stroke: {
+        dashArray: 4,
+      },
+      labels: ["From All Orders"],
+    },
+  };
+  const bars = {
+    options: {
+      chart: {
+        id: "basic-bar",
+      },
+      xaxis: {
+        categories: ["clients", "vendors"],
+      },
+    },
+    series: [
+      {
+        name: "series-1",
+        data: [clients, vendors],
+      },
+    ],
+  };
 
   useEffect(() => {
     axios.get(`${url}/api/admin/stats`).then((res) => {
       const data = res.data;
 
       if (data.status === "success") {
+        console.log(data);
         setStats(data.data);
+        console.log(stats);
       } else {
+        console.log(data);
         toast.error("Something went Wrong");
       }
     });
@@ -82,7 +159,7 @@ const AdminDashboard = () => {
               Welcome,{adminData.first_name}_{adminData.last_name}{" "}
             </h1>
 
-            {Object.keys(stats).length !== 0 && 
+            {Object.keys(stats).length !== 0 && (
               <div className="data grid sm:grid-cols-2 xl:grid-cols-4 gap-[30px] mt-[20px]">
                 <Box
                   icon={<FaPeopleGroup />}
@@ -105,7 +182,29 @@ const AdminDashboard = () => {
                   data={stats.acceptedOrders.acceptedOrders || 0}
                 />
               </div>
-            }
+            )}
+          </div>
+
+          <div className="mt-[40px] overflow-y-auto grid xl:grid-cols-2 gap-[30px]">
+            <div className=" bg-white p-3 rounded-[10px] w-full max-w-full">
+              <Chart
+                options={bars.options}
+                series={bars.series}
+                type="bar"
+                width="500"
+              />
+            </div>
+
+            <div className=" bg-white p-3 rounded-[10px] w-full max-w-full">
+            <h3 className='text-center font-semibold italic text-[#233657]'>Orders Confirmed Percentage:</h3>
+              <Chart
+                options={ordersChart.options}
+                series={ordersChart.series}
+                type="radialBar"
+                height={350}
+                width={"100%"}
+              />
+            </div>
           </div>
         </div>
       </div>
