@@ -2,6 +2,7 @@ export {default as Home} from './Home';
 export {default as Products} from './Products';
 export {default as CategoryProducts} from './Category.Products';
 export {default as ProductDetails} from './ProductDetails';
+export {default as SearchProducts} from './Search.Products';
 export {default as Shop} from './Shop';
 export {default as Checkout} from './Checkout';
 export {default as WishList} from './WishList';

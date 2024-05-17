@@ -23,7 +23,7 @@ const ProductsHome = () => {
     },[])
 
   return (
-    <div className='py-[20px] px-[20px] sm:px-[50px]'>
+    <div id="products" className='py-[20px] px-[20px] sm:px-[50px]'>
       
       <h3 className='font-semibold text-[22px] sm:text-[28px] mb-[20px]'>Trending Products</h3>
 

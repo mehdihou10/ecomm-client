@@ -14,36 +14,71 @@ import axios from "axios";
 import { url } from "../api/api.url";
 import Swal from "sweetalert2";
 import Logo from './Logo';
+import { ToastContainer, toast } from "react-toastify";
 
 
 //local components
 const Search = () => {
+
+  const navigate = useNavigate();
+
+  const [text,setText] = useState("");
+
+
+  function goToProducts(){
+
+    if(text.trim() !== ""){
+      navigate(`/search/${text}`);
+    } else{
+      toast.error("Please add a text")
+    }
+  }
+
+
   return (
+    <>
+      <ToastContainer theme="colored" position="top-left" />
+
     <div className="search border flex w-[500px] max-w-full mx-auto rounded-full overflow-hidden">
       <input
+        onChange={(e)=>setText(e.target.value)}
         type="text"
         className="block px-[20px] py-2 border-0 outline-none flex-1"
         placeholder="Search For"
+        defaultValue={text}
       />
 
-      <div className="icon w-[50px] grid place-items-center font-semibold cursor-pointer text-[20px] bg-main text-white h-[40px]">
+      <div onClick={goToProducts} className="icon w-[50px] grid place-items-center font-semibold cursor-pointer text-[20px] bg-main text-white h-[40px]">
         <IoSearchSharp className="pointer-events-none" />
       </div>
     </div>
+    </>
+
   );
 };
 
-const Shop = () => (
-  <Link to="/cart" className="text-[25px]">
+const Shop = (props) => {
+
+  const isSigned = useSelector(state=>state.isSigned);
+
+
+  return(
+    <Link to={`${isSigned ? '/cart' : '/auth/login'}`} className={`${props.size ? '' : 'text-[25px]'}`}>
     <LuShoppingCart />
   </Link>
-);
+  )
+};
 
-const Wishlist = () => (
-  <Link to="/wishlist" className="text-[25px]">
+const Wishlist = (props) => {
+
+  const isSigned = useSelector(state=>state.isSigned);
+
+  return(
+    <Link to={`${isSigned ? '/wishlist' : '/auth/login'}`} className={`${props.size ? '' : 'text-[25px]'}`}>
     <FaRegHeart />
   </Link>
-);
+  )
+};
 
 const Sign = () => (
   <div className="btns flex">
@@ -152,14 +187,14 @@ const Profile = () => {
             to="/cart"
             className="flex md:hidden items-center gap-[5px] py-[12px] px-[15px]"
           >
-            <LuShoppingCart /> Shop Cart
+            <Shop size={true} /> Shop Cart
           </Link>
 
           <Link
             to="/wishlist"
             className="flex md:hidden items-center gap-[5px] pt-[12px] pb-[20px] px-[15px] border-b"
           >
-            <FaRegHeart /> Wishlist
+            <Wishlist size={true} /> Wishlist
           </Link>
 
           <button
@@ -336,7 +371,7 @@ const Header = () => {
           <Link to="/"><Logo /></Link>
         </div>
 
-        <div className="search-bar hidden lg:block">
+        <div className="search-bar hidden xl:block">
           <Search />
         </div>
 
@@ -367,7 +402,7 @@ const Header = () => {
       </div>
 
       {/* search bar -small devices- */}
-      <div className="search-sm p-4 block lg:hidden">
+      <div className="search-sm p-4 block xl:hidden">
         <Search />
       </div>
     </header>

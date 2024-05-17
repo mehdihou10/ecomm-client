@@ -1,6 +1,7 @@
-import {useState,useEffect,useRef} from 'react'
+import {useState,useEffect} from 'react'
 import Header from '../components/Header';
-import {useParams,Link} from 'react-router-dom';
+import {useParams,Link,useNavigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 import { url } from '../api/api.url';
 import { FaStar } from "react-icons/fa6";
@@ -8,11 +9,13 @@ import { FaRegHeart } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 import { MdOutlineZoomOutMap,MdClose } from "react-icons/md";
 import Product from '../components/Product';
+import Swal from 'sweetalert2';
 
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
+import {useCookies} from 'react-cookie';
 
 
 
@@ -20,11 +23,18 @@ const ProductDetails = () => {
 
   const {productName} = useParams();
 
+  const navigate = useNavigate();
+
+  const [cookies,setCookie,removeCookie] = useCookies(['user']);
+
+  const isSigned = useSelector(state=>state.isSigned);
+
   const [product,setProduct] = useState({});
   const [recommendedProducts,setProducts] = useState([]);
   const [showImage,setShowImage] = useState(false);
   const [quantity,setQuantity] = useState(1);
   const [width,setWidth] = useState(window.innerWidth);
+  const [isLiked,setIsLiked] = useState(false);
 
   window.onresize = (e)=>setWidth(e.target.innerWidth)
 
@@ -42,7 +52,7 @@ const ProductDetails = () => {
       }
     })
 
-  },[])
+  },[productName])
 
   useEffect(()=>{
 
@@ -57,8 +67,6 @@ const ProductDetails = () => {
 
       const data = res.data;
 
-      console.log(data)
-
       if(data.status === "success"){
         setProducts(data.products);
       }
@@ -69,7 +77,16 @@ const ProductDetails = () => {
 
   },[product])
 
+  useEffect(()=>{
 
+    if(isSigned && Object.keys(product).length !== 0){
+
+      isExistsInWishlist();
+    }
+
+  },[product])
+
+  //functions
   const decreaseQte = ()=>{
 
     if(quantity !== 1){
@@ -79,6 +96,84 @@ const ProductDetails = () => {
     }
   }
 
+
+  function addToCart(){
+
+    if(isSigned){
+
+      axios.post(`${url}/api/main/cart/add/${product.id}`,{qte: quantity},{
+        headers: {
+          Authorization: `Bearer ${cookies.user}`
+        }
+      }).then((res)=>{
+
+        const data = res.data;
+
+        if(data.status === "success"){
+
+          Swal.fire({
+            icon: "success",
+            title: "Product Added To Cart"
+          })
+
+        } else if(data.status === "fail"){
+
+          Swal.fire({
+            icon: "error",
+            title: data.message
+          })
+
+        }
+      })
+
+    } else{
+      navigate("/auth/login")
+    }
+
+  }
+
+  function isExistsInWishlist(){
+
+    axios.get(`${url}/api/main/wishlist/verify/${product.id}`,{
+      headers: {
+        Authorization: `Bearer ${cookies.user}`
+      }
+    }).then((res)=>{
+
+      const data = res.data;
+
+      if(data.status === "success"){
+        setIsLiked(data.isExists);
+      }
+    })
+
+
+  }
+
+  function toggleWishlist(){
+
+   if(isSigned){
+
+    axios.post(`${url}/api/main/wishlist/toggle/${product.id}`,null,{
+      headers: {
+        Authorization: `Bearer ${cookies.user}`
+      }
+    }).then((res)=>{
+
+      const status = res.data.status;
+
+      if(status === "success"){
+        isExistsInWishlist();
+      }
+    })
+    
+
+   } else{
+
+    navigate("/auth/login");
+   }
+
+  }
 
 
   return (
@@ -114,9 +209,10 @@ const ProductDetails = () => {
 
         <div className="details flex-1 bg-white px-[20px] py-[25px] rounded-[10px]">
 
-          <div className="grid place-items-center w-[40px] h-[40px] ml-auto rounded-full border border-black cursor-pointer">
-            <FaRegHeart className='text-[20px]' />
-          </div>
+          <button onClick={toggleWishlist} className={`grid place-items-center w-[40px] h-[40px]
+           ml-auto rounded-full border border-black cursor-pointer ${isLiked ? 'bg-black' : 'bg-white'}`}>
+            <FaRegHeart className={`pointer-events-none text-[20px] ${isLiked ? 'text-white' : 'text-black'}`} />
+          </button>
           <h3 className='text-[25px] font-semibold'>{product.name} <span className="text-gray-500 text-[12px] italic">({product.brand})</span></h3>
           <span className='block text-main font-semibold text-[20px] mt-[10px]'>{product.price} DZD</span>
 
@@ -142,7 +238,8 @@ const ProductDetails = () => {
             <span onClick={()=>setQuantity((prev)=>prev+1)} className='select-none grid place-items-center w-[40px] h-[40px] cursor-pointer bg-gray-500 text-white rounded-[6px]'>+</span>
 
             </div>
-            <button className='flex justify-center items-center gap-[3px] w-[300px] max-w-full mx-auto h-[40px] bg-main text-white mt-[15px]'>
+            <button onClick={addToCart} className='flex justify-center items-center gap-[3px]
+             w-[300px] max-w-full mx-auto h-[40px] bg-main text-white mt-[15px]'>
             <LuShoppingCart className='text-[18px]' />  Add To Cart
             </button>
 

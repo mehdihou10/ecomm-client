@@ -30,7 +30,7 @@ const Categories = () => {
         {
             categories.map(category=> (
 
-                <div className="text-center">
+                <div key={category.id} className="text-center">
 
                 
                 <Link to={`/categories/${category.name}`} key={category.id} className=''>

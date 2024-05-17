@@ -34,6 +34,7 @@ import {
   AdminUpdate,
   ClientMessages,
   VendorMessages,
+  SearchProducts,
 } from "./pages";
 
 import { Routes, Route } from "react-router-dom";
@@ -56,6 +57,7 @@ function App() {
         <Route path="auth/type" element={<CheckboxType />} />
         <Route path="auth/signup" element={<Signup />} />
         <Route path="categories/:categoryName" element={<CategoryProducts />} />
+        <Route path="search/:searchText" element={<SearchProducts />} />
         <Route path="products/:productName" element={<ProductDetails />} />
         <Route path="cart" element={<Shop />} />
         <Route path="wishlist" element={<WishList />} />
