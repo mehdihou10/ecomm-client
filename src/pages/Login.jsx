@@ -27,7 +27,6 @@ const Login = () => {
       body: JSON.stringify({ email, password }),
     });
     const json = await response.json();
-
     if (json.status === "fail") {
       const errors = json.message;
       for (const error of errors) {
@@ -37,9 +36,7 @@ const Login = () => {
       const expirationDate = new Date();
       expirationDate.setMonth(expirationDate.getMonth() + 1);
       setCookie("user", json.token, { expires: expirationDate, path: "/" });
-
       dispatch(isSigned());
-
       axios
         .post(`${url}/api/decode`, null, {
           headers: {
@@ -48,10 +45,8 @@ const Login = () => {
         })
         .then((res) => {
           const data = res.data;
-
           if (data.status === "success") {
             const user = data.user;
-
             if (json.type === "client") {
               navigate("/");
             } else if (json.type === "vendor") {
