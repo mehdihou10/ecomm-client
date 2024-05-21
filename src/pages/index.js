@@ -5,6 +5,7 @@ export {default as ProductDetails} from './ProductDetails';
 export {default as SearchProducts} from './Search.Products';
 export {default as Shop} from './Shop';
 export {default as Checkout} from './Checkout';
+export {default as ConfirmOrder} from './Confirm.Order';
 export {default as WishList} from './WishList';
 export {default as UserDashboard} from './client/UserDashboard';
 export {default as UserContact} from './client/User.Contact';

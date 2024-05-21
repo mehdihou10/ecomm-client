@@ -150,7 +150,7 @@ const VendorProducts = () => {
                   >
                     <td className="p-3 text-sm text-gray-700">
                       {" "}
-                      <img src={product.image}  className="w-10 h-10 sm:w-16 object-cover"/>{" "}
+                      <img src={product.image}  className="w-10 h-10 sm:w-16 object-contain"/>{" "}
                     </td>
                     <td className="p-3 text-sm text-gray-700">
                       {product.name}

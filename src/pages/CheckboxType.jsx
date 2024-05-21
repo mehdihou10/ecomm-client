@@ -5,6 +5,7 @@ import { FaPeopleCarry } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa6";
 import { LuHeading1 } from "react-icons/lu";
 import ProcessSign from "../components/Process.Sign";
+import Footer from "../components/Footer";
 
 const CheckboxType = () => {
   const [type, setType] = useState("");
@@ -77,6 +78,8 @@ const CheckboxType = () => {
           )}
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };

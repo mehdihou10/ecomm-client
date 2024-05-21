@@ -6,6 +6,7 @@ import Product from '../components/Product';
 import axios from 'axios';
 import { url } from '../api/api.url';
 import { useCookies } from 'react-cookie';
+import Footer from '../components/Footer';
 
 
 const WishList = () => {
@@ -38,7 +39,7 @@ const WishList = () => {
     <div>
       <Header />
 
-      <div className="p-[20px]">
+      <div className="p-[20px] min-h-[50vh]">
 
       <div className="text-[13px] capitalize text-gray-500"><span className='font-semibold text-black'><Link to='/'>Home</Link></span>/wishlist</div>
 
@@ -54,6 +55,8 @@ const WishList = () => {
 
         }
         </div>
+
+        <Footer />
     </div>
   )
 }

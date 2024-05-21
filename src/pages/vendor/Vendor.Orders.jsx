@@ -98,6 +98,7 @@ const VendorOrders = () => {
       });
   };
 
+
   return (
     <div className="sm:flex">
       <ToastContainer theme="colored" position="top-left" />
@@ -164,7 +165,7 @@ const VendorOrders = () => {
                         {" "}
                         <img
                           src={order.image}
-                          className="w-10 h-10 sm:w-16 object-cover"
+                          className="w-10 h-10 sm:w-16 object-contain"
                         />{" "}
                       </td>
                       <td className="p-3 text-sm text-gray-700">

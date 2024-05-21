@@ -1,7 +1,8 @@
 import {useState,useEffect} from 'react'
 import Header from '../components/Header';
 import {useParams,Link,useNavigate} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import { updateCart } from '../store/slices/cart.slice';
 import axios from 'axios';
 import { url } from '../api/api.url';
 import { FaStar } from "react-icons/fa6";
@@ -10,6 +11,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { MdOutlineZoomOutMap,MdClose } from "react-icons/md";
 import Product from '../components/Product';
 import Swal from 'sweetalert2';
+import Footer from '../components/Footer';
 
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
@@ -28,9 +30,11 @@ const ProductDetails = () => {
   const [cookies,setCookie,removeCookie] = useCookies(['user']);
 
   const isSigned = useSelector(state=>state.isSigned);
+  const dispatch = useDispatch();
 
   const [product,setProduct] = useState({});
   const [recommendedProducts,setProducts] = useState([]);
+  const [similarProducts,setSimilarProducts] = useState([]);
   const [showImage,setShowImage] = useState(false);
   const [quantity,setQuantity] = useState(1);
   const [width,setWidth] = useState(window.innerWidth);
@@ -51,6 +55,21 @@ const ProductDetails = () => {
         setProduct(data.product)
       }
     })
+
+  },[productName])
+
+  useEffect(()=>{
+
+    axios.get(`${url}/api/main/similar/products/${productName}`)
+    .then((res)=>{
+
+      const data = res.data;
+
+      if(data.status === "success"){
+        setSimilarProducts(data.products);
+      }
+    })
+
 
   },[productName])
 
@@ -111,6 +130,8 @@ const ProductDetails = () => {
 
         if(data.status === "success"){
 
+          dispatch(updateCart());
+
           Swal.fire({
             icon: "success",
             title: "Product Added To Cart"
@@ -164,6 +185,7 @@ const ProductDetails = () => {
 
       if(status === "success"){
         isExistsInWishlist();
+        dispatch(updateCart());
       }
     })
     
@@ -290,7 +312,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <div className="recommended-products mt-[30px]">
+      <div className="recommended-products mt-[40px]">
       <h3 className='text-[22px] font-semibold mb-[20px]'>Recommended Products:</h3>
 
       <div className="show-products">
@@ -302,10 +324,25 @@ const ProductDetails = () => {
       </div>
       </div>
 
+
+      <div className="similar-products mt-[40px]">
+      <h3 className='text-[22px] font-semibold mb-[20px]'>Similar Products:</h3>
+
+      <div className="show-products">
+        { similarProducts.length !== 0 ?
+          similarProducts.map(product=><Product key={product.id} product={product} />)
+
+          : <p className='text-[14px] text-gray-500 italic'>Nothing to Show</p>
+        }
+      </div>
+      </div>
+
       </>
 
       }
       </div>
+
+      <Footer />
 
     </div>
   )

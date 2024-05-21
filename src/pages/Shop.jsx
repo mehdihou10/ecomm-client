@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import { updateCart } from '../store/slices/cart.slice';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import axios from 'axios';
@@ -7,11 +8,13 @@ import { url } from '../api/api.url';
 import { useCookies } from 'react-cookie';
 import {MdClose} from 'react-icons/md';
 import Swal from 'sweetalert2';
+import Footer from '../components/Footer';
 
 
 const Shop = () => {
 
   const isSigned = useSelector(state=>state.isSigned);
+  const dispatch = useDispatch();
 
 
   const [cookies,setCookie,removeCookie] = useCookies(['user']);
@@ -63,6 +66,7 @@ const Shop = () => {
     
           if(res.data.status === "success"){
             getCartProducts();
+            dispatch(updateCart());
           }
         })
 
@@ -75,7 +79,7 @@ const Shop = () => {
     <div>
       <Header />
 
-      <div className="p-[20px]">
+      <div className="p-[20px] min-h-[50vh]">
       <div className="text-[13px] capitalize text-gray-500"><span className='font-semibold text-black'><Link to='/'>Home</Link></span>/shop</div>
 
       { products.length !== 0 ?
@@ -172,6 +176,8 @@ const Shop = () => {
         </div>
       }
       </div>
+
+      <Footer />
     </div>
   )
 }

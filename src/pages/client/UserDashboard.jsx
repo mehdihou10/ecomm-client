@@ -9,6 +9,7 @@ import { FaGear } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { LuShoppingCart } from "react-icons/lu";
 import { LiaTableSolid } from "react-icons/lia";
+import Footer from '../../components/Footer';
 
 
 
@@ -66,7 +67,7 @@ const UserDashboard = () => {
           <div className="lg:hidden"><UserTitle firstName={userData.first_name} lastName={userData.last_name} /></div>
 
 
-        <div className="w-full lg:sticky lg:top-[20px] l user-info bg-white lg:basis-[30%] text-center px-[15px] py-[20px]">
+        <div className="w-full lg:sticky lg:top-[100px] l user-info bg-white lg:basis-[30%] text-center px-[15px] py-[20px]">
           <img src={userData.image} className='w-[100px] mx-auto' />
           <h3 className='font-semibold'>{userData.first_name}_{userData.last_name}</h3>
           <span className="block text-[14px] text-gray-500 italic">Buyer</span>
@@ -93,6 +94,8 @@ const UserDashboard = () => {
 
       </div>
       }
+
+      <Footer />
 
     </div>
   )

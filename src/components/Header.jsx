@@ -10,6 +10,7 @@ import { AiFillHome } from "react-icons/ai";
 import {useCookies} from 'react-cookie';
 import { useSelector, useDispatch } from "react-redux";
 import { isSigned } from "../store/slices/sign.slice";
+import { updateCart } from "../store/slices/cart.slice";
 import axios from "axios";
 import { url } from "../api/api.url";
 import Swal from "sweetalert2";
@@ -61,10 +62,53 @@ const Shop = (props) => {
 
   const isSigned = useSelector(state=>state.isSigned);
 
+  const [cookies,setCookie,removeCookie] = useCookies(['user']);
+
+  const [cartCount,setCartCount] = useState(0);
+
+  const cart = useSelector(state=>state.cart);
+
+
+  useEffect(()=>{
+
+    if(isSigned){
+
+      axios.get(`${url}/api/main/count`,{
+        headers: {
+          Authorization: `Bearer ${cookies.user}`
+        }
+      }).then((res)=>{
+
+        const data = res.data;
+
+
+        if(data.status === "success"){
+          
+          setCartCount(data.cart);
+        }
+
+
+        
+      })
+
+
+    }
+
+  },[isSigned,cart])
+
+
 
   return(
-    <Link to={`${isSigned ? '/cart' : '/auth/login'}`} className={`${props.size ? '' : 'text-[25px]'}`}>
+    <Link to={`${isSigned ? '/cart' : '/auth/login'}`} className={`relative ${props.size ? '' : 'text-[25px]'}`}>
     <LuShoppingCart />
+
+    { isSigned &&
+
+      <span className="absolute grid place-items-center
+     w-[20px] h-[20px] rounded-full
+    bg-red-500 text-white text-[10px] -top-[17px] -right-[5px]">{cartCount}</span>
+    }
+
   </Link>
   )
 };
@@ -73,9 +117,51 @@ const Wishlist = (props) => {
 
   const isSigned = useSelector(state=>state.isSigned);
 
+  const [cookies,setCookie,removeCookie] = useCookies(['user']);
+
+  const [wishlistCount,setWishlistCount] = useState(0);
+
+  const cart = useSelector(state=>state.cart);
+
+
+  useEffect(()=>{
+
+    if(isSigned){
+
+      axios.get(`${url}/api/main/count`,{
+        headers: {
+          Authorization: `Bearer ${cookies.user}`
+        }
+      }).then((res)=>{
+
+        const data = res.data;
+
+
+        if(data.status === "success"){
+          
+          setWishlistCount(data.wishlist);
+        }
+
+
+        
+      })
+
+
+    }
+
+  },[isSigned,cart])
+
   return(
-    <Link to={`${isSigned ? '/wishlist' : '/auth/login'}`} className={`${props.size ? '' : 'text-[25px]'}`}>
+    <Link to={`${isSigned ? '/wishlist' : '/auth/login'}`} className={`relative ${props.size ? '' : 'text-[25px]'}`}>
     <FaRegHeart />
+
+    { isSigned &&
+
+      <span className="absolute grid place-items-center
+     w-[20px] h-[20px] rounded-full
+    bg-red-500 text-white text-[10px] -top-[17px] -right-[5px]">{wishlistCount}</span>
+    }
+
   </Link>
   )
 };
@@ -358,11 +444,12 @@ const ToggleSidebar = () => {
 
 //main component
 const Header = () => {
+
   const isSign = useSelector((state) => state.isSigned);
 
 
   return (
-    <header className="bg-white">
+    <header className="bg-white sticky top-0 z-[5]">
       <div className="px-[20px] py-[25px] border-b flex justify-between items-center">
         <div className="flex items-center gap-[10px]">
           <div className="hidden md:block">

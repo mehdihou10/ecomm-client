@@ -84,11 +84,11 @@ const AdminSidebar = ({active,header}) => {
       <ul className='flex flex-col  gap-[20px] mt-[40px]'>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}`} className={`sidebar-item ${active === 1 ? 'active' :''} hover:active`}><div className="icon"><AiFillHome /></div>Dashboard</Link></li>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/profile`} className={`sidebar-item ${active === 2 ? 'active' :''} hover:active`}><div className="icon"><CgProfile /></div>Profile</Link></li>
-        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/pendingvendors`} className={`sidebar-item ${active === 3 ? 'active' :''} hover:active`}><div className="icon"><FaUserClock /></div>PendingVendors</Link></li>
-        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/acceptedvednors`} className={`sidebar-item ${active === 4 ? 'active' :''} hover:active`}><div className="icon"><FaUserCheck /></div>AcceptedVendors</Link></li>
+        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/pendingvendors`} className={`sidebar-item ${active === 3 ? 'active' :''} hover:active`}><div className="icon"><FaUserClock /></div>Pending Vendors</Link></li>
+        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/acceptedvednors`} className={`sidebar-item ${active === 4 ? 'active' :''} hover:active`}><div className="icon"><FaUserCheck /></div>Accepted Vendors</Link></li>
         <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/clients`} className={`sidebar-item ${active === 5 ? 'active' :''} hover:active`}><div className="icon"><BsCartCheckFill /></div>Clients</Link></li>
-        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/clientmessages`} className={`sidebar-item ${active === 6 ? 'active' :''} hover:active`}><div className="icon"><FaEnvelope /></div>ClientMessages</Link></li>
-        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/vendormessages`} className={`sidebar-item ${active === 7 ? 'active' :''} hover:active`}><div className="icon"><FaEnvelope /></div>VendorMessages</Link></li>
+        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/clientmessages`} className={`sidebar-item ${active === 6 ? 'active' :''} hover:active`}><div className="icon"><FaEnvelope /></div>Clients Messages</Link></li>
+        <li><Link to={`/admin_dashboard/${data.first_name}_${data.last_name}/vendormessages`} className={`sidebar-item ${active === 7 ? 'active' :''} hover:active`}><div className="icon"><FaEnvelope /></div>Vendors Messages</Link></li>
 
 
       </ul>

@@ -167,7 +167,7 @@ const VendorProductDeatils = () => {
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="image text-sm font-medium leading-6 text-gray-900">Image</dt>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <img src={productData.image} alt="" className="sm:w-96 sm:h-96 w-auto object-cover" />
+              <img src={productData.image} alt="" className="sm:w-96 sm:h-96 w-auto object-contain" />
             </dd>
           </div>
 

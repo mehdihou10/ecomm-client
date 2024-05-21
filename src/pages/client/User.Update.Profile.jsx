@@ -5,6 +5,7 @@ import axios from 'axios';
 import { url } from '../../api/api.url';
 import {toast,ToastContainer} from 'react-toastify';
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 const UserUpdateProfile = () => {
 
@@ -231,6 +232,7 @@ const UserUpdateProfile = () => {
 </div>
 
 
+<Footer />
 
     </div>
   )

@@ -9,6 +9,7 @@ import { FaCheck } from "react-icons/fa6";
 import Header from '../../components/Header';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../components/Footer';
 
 
 const UserOrders = () => {
@@ -101,6 +102,10 @@ const UserOrders = () => {
 
   return (
     <div>
+
+      <div className="min-h-[60vh]">
+
+      
       <ToastContainer theme='colored' position='top-left' />
       <Header />
       
@@ -149,7 +154,7 @@ const UserOrders = () => {
                  Total
                </th>
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
-                 Date
+                 Since
                </th>
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                  Status
@@ -168,7 +173,7 @@ const UserOrders = () => {
                    {" "}
                    <img
                      src={order.image}
-                     className="w-10 h-10 sm:w-16 object-cover"
+                     className="w-10 h-10 sm:w-16 object-contain"
                    />{" "}
                  </td>
                  <td className="p-3 text-sm text-gray-700">
@@ -227,7 +232,7 @@ const UserOrders = () => {
                  Total
                </th>
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
-                 Date
+                 Since
                </th>
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
                  Status
@@ -250,7 +255,7 @@ const UserOrders = () => {
                    {" "}
                    <img
                      src={order.image}
-                     className="w-10 h-10 sm:w-16 object-cover"
+                     className="w-10 h-10 sm:w-16 object-contain"
                    />{" "}
                  </td>
                  <td className="p-3 text-sm text-gray-700">
@@ -316,7 +321,7 @@ const UserOrders = () => {
                </th>
 
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
-                 Date
+                 Since
                </th>
                
                <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
@@ -336,7 +341,7 @@ const UserOrders = () => {
                    {" "}
                    <img
                      src={order.image}
-                     className="w-10 h-10 sm:w-16 object-cover"
+                     className="w-10 h-10 sm:w-16 object-contain"
                    />{" "}
                  </td>
                  <td className="p-3 text-sm text-gray-700">
@@ -370,6 +375,10 @@ const UserOrders = () => {
         </div>
 
       </div>
+
+      </div>
+
+      <Footer />
     </div>
   )
 }

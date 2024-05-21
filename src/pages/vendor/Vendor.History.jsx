@@ -81,7 +81,7 @@ const VendorHistory = () => {
                       City
                     </th>
                     <th className="p-3 w-32 sm:w-auto text-sm font-semibold tracking-wide text-left">
-                      Date
+                      Since
                     </th>
                   </tr>
                 </thead>
@@ -95,7 +95,7 @@ const VendorHistory = () => {
                         {" "}
                         <img
                           src={his.image}
-                          className="w-10 h-10 sm:w-16 object-cover"
+                          className="w-10 h-10 sm:w-16 object-contain"
                         />{" "}
                       </td>
                       <td className="p-3 text-sm text-gray-700">

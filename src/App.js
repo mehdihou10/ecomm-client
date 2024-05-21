@@ -5,6 +5,7 @@ import {
   ProductDetails,
   Shop,
   Checkout,
+  ConfirmOrder,
   WishList,
   UserDashboard,
   UserProfile,
@@ -37,6 +38,7 @@ import {
   SearchProducts,
 } from "./pages";
 
+
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { isSigned } from "./store/slices/sign.slice";
@@ -62,6 +64,8 @@ function App() {
         <Route path="cart" element={<Shop />} />
         <Route path="wishlist" element={<WishList />} />
         <Route path="checkout" element={<Checkout />} />
+        <Route path="checkout/order/confirm" element={<ConfirmOrder />} />
+
 
         <Route path="user_dashboard/:username" element={<UserDashboard />} />
 
@@ -163,6 +167,7 @@ function App() {
         ></Route>
         <Route path="reset_password/:userToken" element={<ResetPassword />} />
       </Routes>
+
     </>
   );
 }

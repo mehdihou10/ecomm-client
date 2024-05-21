@@ -5,6 +5,7 @@ import { url } from '../api/api.url';
 import Header from '../components/Header';
 import img from '../images/category.jpg';
 import Product from '../components/Product';
+import Footer from '../components/Footer'
 
 
 const CategoryProducts = () => {
@@ -51,6 +52,8 @@ const CategoryProducts = () => {
             products.map(product=><Product key={product.id} product={product} />)
         }
       </div>
+
+      <Footer />
     </div>
   )
 }

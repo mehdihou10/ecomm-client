@@ -5,6 +5,7 @@ import Product from '../components/Product';
 import axios from 'axios';
 import { url } from '../api/api.url';
 import { IoTelescopeOutline } from "react-icons/io5";
+import Footer from '../components/Footer';
 
 
 const SearchProducts = () => {
@@ -42,7 +43,7 @@ const SearchProducts = () => {
   return (
     <div>
       <Header />
-      <div className="p-[20px]">
+      <div className="p-[20px] min-h-[50vh]">
         {
           isExists ?
           <>
@@ -65,6 +66,8 @@ const SearchProducts = () => {
           </div>
         }
       </div>
+
+      <Footer />
     </div>
   )
 }

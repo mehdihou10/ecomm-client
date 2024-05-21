@@ -9,7 +9,7 @@ const HeroText = ({active,text}) => {
 
 return (
   <div className={`${active ? "active-text" : ""} hero-text w-full sm:w-auto`}>
-      <h3 className='text-center text-[14px] main-title'>Luxury Hotel Apartments</h3>
+      <h3 className='text-center text-[14px] main-title'>High Quality Products</h3>
       <h1 className='text-[40px] sm:text-[50px] lg:text-[60px] xl:text-[70px] text-center'>{text}</h1>
       <a href='#products' className='overlay-btn'>Shop Now</a>
     </div>
@@ -114,9 +114,9 @@ const Hero = () => {
 
       {/* texts */}
 
-      <HeroText active={true} text="ENJOY A LUXURY EXPERIENCE" />
-      <HeroText text="YOUR ELEGANT GETAWAY BEGINS" />
-      <HeroText text="UNVEILING THE ART OF GRAND LIVING" />
+      <HeroText active={true} text="EMPOWERING YOUR DIGITAL FUTURE" />
+      <HeroText text="YOUR GATEWAY TO INNOVATION" />
+      <HeroText text="ELEVATE YOUR DIGITAL JOURNEY" />
 
 
       {/* arrows */}
