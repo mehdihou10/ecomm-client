@@ -236,6 +236,10 @@ const ProductDetails = () => {
             <FaRegHeart className={`pointer-events-none text-[20px] ${isLiked ? 'text-white' : 'text-black'}`} />
           </button>
           <h3 className='text-[25px] font-semibold'>{product.name} <span className="text-gray-500 text-[12px] italic">({product.brand})</span></h3>
+          <div className='flex items-center gap-[5px] mt-[10px] mb-[15px]'>
+            <img src={product.vendor_image} className='w-[40px]' />
+            <h3 className='font-semibold'>{product.first_name}_{product.last_name}</h3>
+          </div>
           <span className='block text-main font-semibold text-[20px] mt-[10px]'>{product.price} DZD</span>
 
        {product.count > 0 && <div className="flex items-center gap-[10px] mt-[15px]">

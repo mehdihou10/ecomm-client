@@ -114,9 +114,9 @@ const Hero = () => {
 
       {/* texts */}
 
-      <HeroText active={true} text="EMPOWERING YOUR DIGITAL FUTURE" />
+      <HeroText active={true} text="ELEVATE YOUR DIGITAL JOURNEY" />
       <HeroText text="YOUR GATEWAY TO INNOVATION" />
-      <HeroText text="ELEVATE YOUR DIGITAL JOURNEY" />
+      <HeroText text="YOUR VISION, OUR TECHNOLOGY" />
 
 
       {/* arrows */}

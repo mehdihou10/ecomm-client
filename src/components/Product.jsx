@@ -35,7 +35,7 @@ const Product = ({product}) => {
 
       <div className="p-[20px]">
 
-      <h3 className='font-semibold font-rokkit text-[25px]'>{product.name}
+      <h3 className='font-semibold font-rokkit text-[20px]'>{product.name}
       <span className='text-gray-500 italic text-[14px]'>({product.brand})</span>
       </h3>
 
