@@ -40,16 +40,16 @@ const Search = () => {
     <>
       <ToastContainer theme="colored" position="top-left" />
 
-    <div className="search border flex w-[500px] max-w-full mx-auto rounded-full overflow-hidden">
+    <div className="search relative border w-[500px] max-w-full mx-auto rounded-full overflow-hidden">
       <input
         onChange={(e)=>setText(e.target.value)}
         type="text"
-        className="block px-[20px] py-2 border-0 outline-none flex-1"
+        className="block px-[20px] py-2 border-0 outline-none w-full"
         placeholder="Search For"
         defaultValue={text}
       />
 
-      <div onClick={goToProducts} className="icon w-[50px] grid place-items-center font-semibold cursor-pointer text-[20px] bg-main text-white h-[40px]">
+      <div onClick={goToProducts} className="absolute top-0 right-0 icon w-[50px] grid place-items-center font-semibold cursor-pointer text-[20px] bg-main text-white h-[40px]">
         <IoSearchSharp className="pointer-events-none" />
       </div>
     </div>
