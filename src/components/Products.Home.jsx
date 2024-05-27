@@ -2,6 +2,8 @@ import {useState,useEffect} from 'react'
 import axios from 'axios';
 import { url } from '../api/api.url';
 import Product from './Product';
+import Loader from "react-js-loader";
+
 
 
 const ProductsHome = () => {
@@ -29,6 +31,13 @@ const ProductsHome = () => {
 
       <div className="show-products">
         {
+          products.length === 0 ?
+
+          <div className="my-[20px] w-fit mx-auto">
+            <Loader type="spinner-default" bgColor={"blue"} color={"blue"} size={100} />
+          </div>
+
+          :
             products.map(product=><Product key={product.id} product={product} />)
         }
       </div>

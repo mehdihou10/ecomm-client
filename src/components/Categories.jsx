@@ -2,6 +2,8 @@ import {useState,useEffect} from 'react'
 import axios from 'axios'
 import { url } from '../api/api.url'
 import { Link } from 'react-router-dom'
+import Loader from "react-js-loader";
+
 
 
 const Categories = () => {
@@ -28,6 +30,13 @@ const Categories = () => {
       <div className="categories grid grid-cols-2 xl:grid-cols-4 place-items-center gap-[30px]">
 
         {
+          categories.length === 0 ?
+
+          <div className="my-[20px] w-fit mx-auto">
+            <Loader type="spinner-default" bgColor={"blue"} color={"blue"} size={100} />
+          </div>
+
+          :
             categories.map(category=> (
 
                 <div key={category.id} className="text-center">
