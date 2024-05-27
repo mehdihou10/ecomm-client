@@ -5,7 +5,9 @@ import { url } from '../api/api.url';
 import Header from '../components/Header';
 import img from '../images/category.jpg';
 import Product from '../components/Product';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer';
+import Loader from "react-js-loader";
+
 
 
 const CategoryProducts = () => {
@@ -49,6 +51,13 @@ const CategoryProducts = () => {
 
       <div className="show-products mt-[40px] p-[20px]">
         {
+          products.length === 0 ?
+
+          <div className="my-[20px] w-fit mx-auto">
+            <Loader type="spinner-default" bgColor={"blue"} color={"blue"} size={100} />
+          </div>
+
+          :
             products.map(product=><Product key={product.id} product={product} />)
         }
       </div>

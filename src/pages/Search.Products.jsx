@@ -6,6 +6,8 @@ import axios from 'axios';
 import { url } from '../api/api.url';
 import { IoTelescopeOutline } from "react-icons/io5";
 import Footer from '../components/Footer';
+import Loader from "react-js-loader";
+
 
 
 const SearchProducts = () => {
@@ -53,6 +55,13 @@ const SearchProducts = () => {
 
         <div className="show-products mt-[10px]">
           {
+            products.length === 0 ?
+
+            <div className="my-[20px] w-fit mx-auto">
+            <Loader type="spinner-default" bgColor={"blue"} color={"blue"} size={100} />
+            </div>
+
+            :
             products.map(product=><Product key={product.id} product={product} />)
           }
         </div>
